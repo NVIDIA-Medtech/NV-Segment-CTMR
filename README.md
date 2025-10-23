@@ -1,0 +1,2 @@
+# Model Overview
+The folder contains two NV-Segment models. The NV-Segment-CT is a copy of the original [VISTA3D monai bundle](https://github.com/Project-MONAI/model-zoo/tree/dev/models/vista3d). It supports automatic and interactive segmentation for 3D CT images. The NV-Segment-CTMR is an extension of the VISTA3D CT model and trained on large cohort CT and MRI datasets. This model shares the same architecture as the CT model but we only trained the automatic segmentation part. For more detail about each model, please navigate to each folder.

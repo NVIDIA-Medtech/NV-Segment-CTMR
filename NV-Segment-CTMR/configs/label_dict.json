@@ -1,0 +1,3475 @@
+{
+    "liver": {
+        "index": 1,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AbdomenCT-1K",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "CT-ORG",
+            "DukeLiver",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "Task03",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "ATLAS",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "kidney": {
+        "index": 2,
+        "datasets": []
+    },
+    "spleen": {
+        "index": 3,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AbdomenCT-1K",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "Task09",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "pancreas": {
+        "index": 4,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AbdomenCT-1K",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "PanSeg",
+            "Pancreas-CT",
+            "Task07",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right kidney": {
+        "index": 5,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "aorta": {
+        "index": 6,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "inferior vena cava": {
+        "index": 7,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right adrenal gland": {
+        "index": 8,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left adrenal gland": {
+        "index": 9,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "gallbladder": {
+        "index": 10,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "esophagus": {
+        "index": 11,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "SegRap1",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "stomach": {
+        "index": 12,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "duodenum": {
+        "index": 13,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "AutoPETAtlas",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left kidney": {
+        "index": 14,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "Abdomen8k",
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "FLARE22",
+            "Multi-organ-Abdominal-CT-btcv",
+            "Multi-organ-Abdominal-CT-tcia",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "bladder": {
+        "index": 15,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "AutoPETAtlas",
+            "BTCV-Cervix",
+            "CT-ORG",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "prostate or uterus (deprecated)": {
+        "index": 16,
+        "datasets": []
+    },
+    "portal vein and splenic vein": {
+        "index": 17,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "BTCV-Abdomen",
+            "CRLM-CT",
+            "Multi-organ-Abdominal-CT-btcv",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "rectum": {
+        "index": 18,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "BTCV-Cervix"
+        ]
+    },
+    "small bowel": {
+        "index": 19,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "BTCV-Cervix",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "lung": {
+        "index": 20,
+        "datasets": ["CT"]
+    },
+    "bone": {
+        "index": 21,
+        "datasets": ["CT"]
+    },
+    "brain": {
+        "index": 22,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "CT-ORG",
+            "SegRap1",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "lung tumor": {
+        "index": 23,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "Task06"
+        ]
+    },
+    "pancreatic tumor": {
+        "index": 24,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "Task07"
+        ]
+    },
+    "hepatic vessel": {
+        "index": 25,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "CRLM-CT",
+            "Task08"
+        ]
+    },
+    "hepatic tumor": {
+        "index": 26,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "CRLM-CT",
+            "Task03",
+            "Task08"
+        ],
+        "MRI": [
+            "ATLAS"
+        ]
+    },
+    "colon cancer primaries": {
+        "index": 27,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "Task10"
+        ]
+    },
+    "left lung upper lobe": {
+        "index": 28,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left lung lower lobe": {
+        "index": 29,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right lung upper lobe": {
+        "index": 30,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right lung middle lobe": {
+        "index": 31,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right lung lower lobe": {
+        "index": 32,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "vertebrae L5": {
+        "index": 33,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae L4": {
+        "index": 34,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae L3": {
+        "index": 35,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae L2": {
+        "index": 36,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae L1": {
+        "index": 37,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T12": {
+        "index": 38,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T11": {
+        "index": 39,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T10": {
+        "index": 40,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T9": {
+        "index": 41,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T8": {
+        "index": 42,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T7": {
+        "index": 43,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T6": {
+        "index": 44,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T5": {
+        "index": 45,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T4": {
+        "index": 46,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T3": {
+        "index": 47,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T2": {
+        "index": 48,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae T1": {
+        "index": 49,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae C7": {
+        "index": 50,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae C6": {
+        "index": 51,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae C5": {
+        "index": 52,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae C4": {
+        "index": 53,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae C3": {
+        "index": 54,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae C2": {
+        "index": 55,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "vertebrae C1": {
+        "index": 56,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2",
+            "VerSe"
+        ]
+    },
+    "trachea": {
+        "index": 57,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "SegRap1",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left iliac artery": {
+        "index": 58,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right iliac artery": {
+        "index": 59,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left iliac vena": {
+        "index": 60,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right iliac vena": {
+        "index": 61,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "colon": {
+        "index": 62,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left rib 1": {
+        "index": 63,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 2": {
+        "index": 64,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 3": {
+        "index": 65,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 4": {
+        "index": 66,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 5": {
+        "index": 67,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 6": {
+        "index": 68,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 7": {
+        "index": 69,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 8": {
+        "index": 70,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 9": {
+        "index": 71,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 10": {
+        "index": 72,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 11": {
+        "index": 73,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left rib 12": {
+        "index": 74,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 1": {
+        "index": 75,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 2": {
+        "index": 76,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 3": {
+        "index": 77,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 4": {
+        "index": 78,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 5": {
+        "index": 79,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 6": {
+        "index": 80,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 7": {
+        "index": 81,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 8": {
+        "index": 82,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 9": {
+        "index": 83,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 10": {
+        "index": 84,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 11": {
+        "index": 85,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right rib 12": {
+        "index": 86,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left humerus": {
+        "index": 87,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right humerus": {
+        "index": 88,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left scapula": {
+        "index": 89,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right scapula": {
+        "index": 90,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left clavicula": {
+        "index": 91,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right clavicula": {
+        "index": 92,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left femur": {
+        "index": 93,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right femur": {
+        "index": 94,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left hip": {
+        "index": 95,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "CTPelvic1K-CLINIC",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right hip": {
+        "index": 96,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "CTPelvic1K-CLINIC",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "sacrum": {
+        "index": 97,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "CTPelvic1K-CLINIC",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left gluteus maximus": {
+        "index": 98,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right gluteus maximus": {
+        "index": 99,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left gluteus medius": {
+        "index": 100,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right gluteus medius": {
+        "index": 101,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left gluteus minimus": {
+        "index": 102,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right gluteus minimus": {
+        "index": 103,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left autochthon": {
+        "index": 104,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right autochthon": {
+        "index": 105,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left iliopsoas": {
+        "index": 106,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right iliopsoas": {
+        "index": 107,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left atrial appendage": {
+        "index": 108,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "brachiocephalic trunk": {
+        "index": 109,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left brachiocephalic vein": {
+        "index": 110,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right brachiocephalic vein": {
+        "index": 111,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left common carotid artery": {
+        "index": 112,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right common carotid artery": {
+        "index": 113,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "costal cartilages": {
+        "index": 114,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "heart": {
+        "index": 115,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left kidney cyst": {
+        "index": 116,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right kidney cyst": {
+        "index": 117,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "prostate": {
+        "index": 118,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AMOS22",
+            "AutoPETAtlas",
+            "BTCV-Cervix",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "AMOS22MR",
+            "Promise12",
+            "TotalSegmentatorMR"
+        ]
+    },
+    "pulmonary vein": {
+        "index": 119,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "skull": {
+        "index": 120,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "spinal cord": {
+        "index": 121,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "SegRap1",
+            "TotalSegmentatorV2"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "sternum": {
+        "index": 122,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "left subclavian artery": {
+        "index": 123,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "right subclavian artery": {
+        "index": 124,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "superior vena cava": {
+        "index": 125,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "thyroid gland": {
+        "index": 126,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1",
+            "TotalSegmentatorV2"
+        ]
+    },
+    "vertebrae S1": {
+        "index": 127,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "TotalSegmentatorV2"
+        ]
+    },
+    "bone lesion": {
+        "index": 128,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "Bone-NIH"
+        ]
+    },
+    "kidney mass (deprecated)": {
+        "index": 129,
+        "datasets": []
+    },
+    "liver tumor (deprecated)": {
+        "index": 130,
+        "datasets": []
+    },
+    "vertebrae L6 (deprecated)": {
+        "index": 131,
+        "datasets": []
+    },
+    "airway": {
+        "index": 132,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AeroPath",
+            "AutoPETAtlas"
+        ]
+    },
+    "fibula (deprecated)": {
+        "index": 133,
+        "datasets": []
+    },
+    "intervertebral discs": {
+        "index": 134,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left lung": {
+        "index": 135,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "right lung": {
+        "index": 136,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "left quadriceps femoris (deprecated)": {
+        "index": 137,
+        "datasets": []
+    },
+    "right quadriceps femoris (deprecated)": {
+        "index": 138,
+        "datasets": []
+    },
+    "left sartorius (deprecated)": {
+        "index": 139,
+        "datasets": []
+    },
+    "right sartorius (deprecated)": {
+        "index": 140,
+        "datasets": []
+    },
+    "left thigh medial compartment (deprecated)": {
+        "index": 141,
+        "datasets": []
+    },
+    "right thigh medial compartment (deprecated)": {
+        "index": 142,
+        "datasets": []
+    },
+    "left thigh posterior compartment (deprecated)": {
+        "index": 143,
+        "datasets": []
+    },
+    "right thigh posterior compartment (deprecated)": {
+        "index": 144,
+        "datasets": []
+    },
+    "tibia (deprecated)": {
+        "index": 145,
+        "datasets": []
+    },
+    "vertebrae": {
+        "index": 146,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "TotalSegmentatorMR"
+        ]
+    },
+    "prostate transitional zone": {
+        "index": 147,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "Prostate158",
+            "Task05"
+        ]
+    },
+    "prostate peripheral zone": {
+        "index": 148,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "Prostate158",
+            "Task05"
+        ]
+    },
+    "left atrium": {
+        "index": 149,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ],
+        "MRI": [
+            "Task02"
+        ]
+    },
+    "white matter hyperintensity": {
+        "index": 150,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "WMH"
+        ]
+    },
+    "left ventricle": {
+        "index": 151,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ],
+        "MRI": [
+            "CMRMotion"
+        ]
+    },
+    "right ventricle": {
+        "index": 152,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ],
+        "MRI": [
+            "CMRMotion"
+        ]
+    },
+    "right atrium": {
+        "index": 153,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "left ventricle myocardium": {
+        "index": 154,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ],
+        "MRI": [
+            "CMRMotion"
+        ]
+    },
+    "ascending aorta (deprecated)": {
+        "index": 155,
+        "datasets": []
+    },
+    "muscles": {
+        "index": 156,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "fat": {
+        "index": 157,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "abdominal tissue": {
+        "index": 158,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "mediastinal tissue": {
+        "index": 159,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "gonads": {
+        "index": 160,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "uterocervix": {
+        "index": 161,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "uterus (deprecated)": {
+        "index": 162,
+        "datasets": []
+    },
+    "breast left": {
+        "index": 163,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "breast right": {
+        "index": 164,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "thyroid left": {
+        "index": 165,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "thyroid right": {
+        "index": 166,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "thymus": {
+        "index": 167,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "skin": {
+        "index": 168,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "heart tissue": {
+        "index": 169,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "celiac trunk": {
+        "index": 170,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "pulmonary artery": {
+        "index": 171,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "cheek left": {
+        "index": 172,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "cheek right": {
+        "index": 173,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "eyeball left": {
+        "index": 174,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "eyeball right": {
+        "index": 175,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "AutoPETAtlas"
+        ]
+    },
+    "brain tumor": {
+        "index": 176,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "Brats23"
+        ]
+    },
+    "chiasm": {
+        "index": 177,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "left temporal lobe": {
+        "index": 178,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "right temporal lobe": {
+        "index": 179,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "left eye": {
+        "index": 180,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right eye": {
+        "index": 181,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left lens": {
+        "index": 182,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "right lens": {
+        "index": 183,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "left optic nerve": {
+        "index": 184,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right optic nerve": {
+        "index": 185,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left middle ear": {
+        "index": 186,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right middle ear": {
+        "index": 187,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left internal auditory canal": {
+        "index": 188,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "right internal auditory canal": {
+        "index": 189,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "left tympanic cavity": {
+        "index": 190,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "right tympanic cavity": {
+        "index": 191,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "left vestibular semicircular canals": {
+        "index": 192,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "right vestibular semicircular canals": {
+        "index": 193,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "left cochlea": {
+        "index": 194,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "right cochlea": {
+        "index": 195,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "left ethmoid bone": {
+        "index": 196,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "right ethmoid bone": {
+        "index": 197,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "pituitary": {
+        "index": 198,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "oral cavity": {
+        "index": 199,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left mandible": {
+        "index": 200,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right mandible": {
+        "index": 201,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left submandibular": {
+        "index": 202,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right submandibular": {
+        "index": 203,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left parotid": {
+        "index": 204,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right parotid": {
+        "index": 205,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left mastoid": {
+        "index": 206,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right mastoid": {
+        "index": 207,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "left temporomandibular joint": {
+        "index": 208,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "right temporomandibular joint": {
+        "index": 209,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "larynx": {
+        "index": 210,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap1"
+        ]
+    },
+    "larynx glottic": {
+        "index": 211,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "larynx supraglot": {
+        "index": 212,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "pharynxConst": {
+        "index": 213,
+        "datasets": [
+            "CT"
+        ],
+        "CT": [
+            "SegRap2"
+        ]
+    },
+    "3rd-Ventricle": {
+        "index": 214,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "4th-Ventricle": {
+        "index": 215,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Accumbens-Area": {
+        "index": 216,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Accumbens-Area": {
+        "index": 217,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Amygdala": {
+        "index": 218,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Amygdala": {
+        "index": 219,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Brain-Stem": {
+        "index": 220,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "SegRap2"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Caudate": {
+        "index": 221,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Caudate": {
+        "index": 222,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Cerebellum-Exterior": {
+        "index": 223,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Cerebellum-Exterior": {
+        "index": 224,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Cerebellum-White-Matter": {
+        "index": 225,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Cerebellum-White-Matter": {
+        "index": 226,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Cerebral-White-Matter": {
+        "index": 227,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Cerebral-White-Matter": {
+        "index": 228,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Hippocampus": {
+        "index": 229,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "SegRap3"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Hippocampus": {
+        "index": 230,
+        "datasets": [
+            "CT",
+            "MRI"
+        ],
+        "CT": [
+            "SegRap3"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Inf-Lat-Vent": {
+        "index": 231,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Inf-Lat-Vent": {
+        "index": 232,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Lateral-Ventricle": {
+        "index": 233,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Lateral-Ventricle": {
+        "index": 234,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Pallidum": {
+        "index": 235,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Pallidum": {
+        "index": 236,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Putamen": {
+        "index": 237,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Putamen": {
+        "index": 238,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Thalamus-Proper": {
+        "index": 239,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Thalamus-Proper": {
+        "index": 240,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Ventral-DC": {
+        "index": 241,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Ventral-DC": {
+        "index": 242,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Cerebellar-Vermal-Lobules-I-V": {
+        "index": 243,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Cerebellar-Vermal-Lobules-VI-VII": {
+        "index": 244,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Cerebellar-Vermal-Lobules-VIII-X": {
+        "index": 245,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Basal-Forebrain": {
+        "index": 246,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Basal-Forebrain": {
+        "index": 247,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-ACgG--anterior-cingulate-gyrus": {
+        "index": 248,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-ACgG--anterior-cingulate-gyrus": {
+        "index": 249,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-AIns--anterior-insula": {
+        "index": 250,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-AIns--anterior-insula": {
+        "index": 251,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-AOrG--anterior-orbital-gyrus": {
+        "index": 252,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-AOrG--anterior-orbital-gyrus": {
+        "index": 253,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-AnG---angular-gyrus": {
+        "index": 254,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-AnG---angular-gyrus": {
+        "index": 255,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Calc--calcarine-cortex": {
+        "index": 256,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Calc--calcarine-cortex": {
+        "index": 257,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-CO----central-operculum": {
+        "index": 258,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-CO----central-operculum": {
+        "index": 259,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Cun---cuneus": {
+        "index": 260,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Cun---cuneus": {
+        "index": 261,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-Ent---entorhinal-area": {
+        "index": 262,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-Ent---entorhinal-area": {
+        "index": 263,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-FO----frontal-operculum": {
+        "index": 264,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-FO----frontal-operculum": {
+        "index": 265,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-FRP---frontal-pole": {
+        "index": 266,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-FRP---frontal-pole": {
+        "index": 267,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-FuG---fusiform-gyrus": {
+        "index": 268,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-FuG---fusiform-gyrus": {
+        "index": 269,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-GRe---gyrus-rectus": {
+        "index": 270,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-GRe---gyrus-rectus": {
+        "index": 271,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-IOG---inferior-occipital-gyrus": {
+        "index": 272,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-IOG---inferior-occipital-gyrus": {
+        "index": 273,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-ITG---inferior-temporal-gyrus": {
+        "index": 274,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-ITG---inferior-temporal-gyrus": {
+        "index": 275,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-LiG---lingual-gyrus": {
+        "index": 276,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-LiG---lingual-gyrus": {
+        "index": 277,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-LOrG--lateral-orbital-gyrus": {
+        "index": 278,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-LOrG--lateral-orbital-gyrus": {
+        "index": 279,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MCgG--middle-cingulate-gyrus": {
+        "index": 280,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MCgG--middle-cingulate-gyrus": {
+        "index": 281,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MFC---medial-frontal-cortex": {
+        "index": 282,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MFC---medial-frontal-cortex": {
+        "index": 283,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MFG---middle-frontal-gyrus": {
+        "index": 284,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MFG---middle-frontal-gyrus": {
+        "index": 285,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MOG---middle-occipital-gyrus": {
+        "index": 286,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MOG---middle-occipital-gyrus": {
+        "index": 287,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MOrG--medial-orbital-gyrus": {
+        "index": 288,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MOrG--medial-orbital-gyrus": {
+        "index": 289,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MPoG--postcentral-gyrus": {
+        "index": 290,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MPoG--postcentral-gyrus": {
+        "index": 291,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MPrG--precentral-gyrus": {
+        "index": 292,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MPrG--precentral-gyrus": {
+        "index": 293,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MSFG--superior-frontal-gyrus": {
+        "index": 294,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MSFG--superior-frontal-gyrus": {
+        "index": 295,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-MTG---middle-temporal-gyrus": {
+        "index": 296,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-MTG---middle-temporal-gyrus": {
+        "index": 297,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-OCP---occipital-pole": {
+        "index": 298,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-OCP---occipital-pole": {
+        "index": 299,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-OFuG--occipital-fusiform-gyrus": {
+        "index": 300,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-OFuG--occipital-fusiform-gyrus": {
+        "index": 301,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-OpIFG-opercular-part-of-the-IFG": {
+        "index": 302,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-OpIFG-opercular-part-of-the-IFG": {
+        "index": 303,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-OrIFG-orbital-part-of-the-IFG": {
+        "index": 304,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-OrIFG-orbital-part-of-the-IFG": {
+        "index": 305,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PCgG--posterior-cingulate-gyrus": {
+        "index": 306,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PCgG--posterior-cingulate-gyrus": {
+        "index": 307,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PCu---precuneus": {
+        "index": 308,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PCu---precuneus": {
+        "index": 309,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PHG---parahippocampal-gyrus": {
+        "index": 310,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PHG---parahippocampal-gyrus": {
+        "index": 311,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PIns--posterior-insula": {
+        "index": 312,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PIns--posterior-insula": {
+        "index": 313,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PO----parietal-operculum": {
+        "index": 314,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PO----parietal-operculum": {
+        "index": 315,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PoG---postcentral-gyrus": {
+        "index": 316,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PoG---postcentral-gyrus": {
+        "index": 317,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-POrG--posterior-orbital-gyrus": {
+        "index": 318,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-POrG--posterior-orbital-gyrus": {
+        "index": 319,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PP----planum-polare": {
+        "index": 320,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PP----planum-polare": {
+        "index": 321,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PrG---precentral-gyrus": {
+        "index": 322,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PrG---precentral-gyrus": {
+        "index": 323,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-PT----planum-temporale": {
+        "index": 324,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-PT----planum-temporale": {
+        "index": 325,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-SCA---subcallosal-area": {
+        "index": 326,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-SCA---subcallosal-area": {
+        "index": 327,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-SFG---superior-frontal-gyrus": {
+        "index": 328,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-SFG---superior-frontal-gyrus": {
+        "index": 329,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-SMC---supplementary-motor-cortex": {
+        "index": 330,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-SMC---supplementary-motor-cortex": {
+        "index": 331,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-SMG---supramarginal-gyrus": {
+        "index": 332,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-SMG---supramarginal-gyrus": {
+        "index": 333,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-SOG---superior-occipital-gyrus": {
+        "index": 334,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-SOG---superior-occipital-gyrus": {
+        "index": 335,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-SPL---superior-parietal-lobule": {
+        "index": 336,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-SPL---superior-parietal-lobule": {
+        "index": 337,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-STG---superior-temporal-gyrus": {
+        "index": 338,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-STG---superior-temporal-gyrus": {
+        "index": 339,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-TMP---temporal-pole": {
+        "index": 340,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-TMP---temporal-pole": {
+        "index": 341,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-TrIFG-triangular-part-of-the-IFG": {
+        "index": 342,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-TrIFG-triangular-part-of-the-IFG": {
+        "index": 343,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Right-TTG---transverse-temporal-gyrus": {
+        "index": 344,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    },
+    "Left-TTG---transverse-temporal-gyrus": {
+        "index": 345,
+        "datasets": [
+            "MRI"
+        ],
+        "MRI": [
+            "LUMIR"
+        ]
+    }
+}

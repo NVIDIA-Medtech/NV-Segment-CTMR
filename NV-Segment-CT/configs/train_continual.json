@@ -1,0 +1,178 @@
+{
+    "data_list_file_path": "$@bundle_root + '/configs/msd_task09_spleen_folds.json'",
+    "dataset_dir": "/data/Task09_Spleen",
+    "finetune": true,
+    "val_at_start": true,
+    "finetune_model_path": "$@bundle_root + '/models/model.pt'",
+    "n_train_samples": null,
+    "n_val_samples": null,
+    "val_interval": 1,
+    "learning_rate": 5e-05,
+    "lr_schedule#activate": false,
+    "loss#smooth_dr": 0.01,
+    "loss#smooth_nr": 0.0001,
+    "train_dataset_cache_rate": 1.0,
+    "val_dataset_cache_rate": 1.0,
+    "num_cache_workers": 4,
+    "label_mappings": {
+        "default": [
+            [
+                1,
+                3
+            ]
+        ]
+    },
+    "patch_size": [
+        128,
+        128,
+        128
+    ],
+    "label_set": "$[0] + list(x[1] for x in @label_mappings#default)",
+    "val_label_set": "$[0] + list(x[0] for x in @label_mappings#default)",
+    "num_classes": 255,
+    "output_classes": "$len(@label_set)",
+    "optimizer": {
+        "_target_": "torch.optim.AdamW",
+        "lr": "@learning_rate",
+        "params": "$@network.parameters()"
+    },
+    "show_cache_progress": true,
+    "resample_to_spacing": [
+        1.5,
+        1.5,
+        1.5
+    ],
+    "cache_cls_idx": {
+        "activate": true,
+        "indices_key": "$'label_cls_indices' if @cache_cls_idx#activate else None"
+    },
+    "train#random_transforms": [
+        {
+            "_target_": "ClassesToIndicesd",
+            "_disabled_": "$not @cache_cls_idx#activate",
+            "keys": "label",
+            "num_classes": "@num_classes",
+            "indices_postfix": "_cls_indices",
+            "max_samples_per_class": "$int(10 * @epochs)"
+        },
+        {
+            "_target_": "RandCropByLabelClassesd",
+            "keys": [
+                "image",
+                "label"
+            ],
+            "label_key": "label",
+            "num_classes": "@num_classes",
+            "spatial_size": "@patch_size",
+            "num_samples": "@num_patches_per_image",
+            "ratios": "$tuple(float(i>=0) for i in range(@num_classes))",
+            "indices_key": "$@cache_cls_idx#indices_key",
+            "warn": false
+        },
+        {
+            "_target_": "RandZoomd",
+            "keys": [
+                "image",
+                "label"
+            ],
+            "min_zoom": 0.8,
+            "max_zoom": 1.2,
+            "mode": [
+                "trilinear",
+                "nearest"
+            ],
+            "prob": 0.2,
+            "allow_missing_keys": true
+        },
+        {
+            "_target_": "RandSimulateLowResolutiond",
+            "keys": [
+                "image"
+            ],
+            "zoom_range": [
+                0.3,
+                1
+            ],
+            "prob": 0.2,
+            "allow_missing_keys": true
+        },
+        {
+            "_target_": "RandGaussianSmoothd",
+            "keys": [
+                "image"
+            ],
+            "prob": 0.2,
+            "sigma_x": [
+                0.5,
+                1.0
+            ],
+            "sigma_y": [
+                0.5,
+                1.0
+            ],
+            "sigma_z": [
+                0.5,
+                1.0
+            ]
+        },
+        {
+            "_target_": "RandScaleIntensityd",
+            "keys": [
+                "image"
+            ],
+            "factors": 0.1,
+            "prob": 0.2
+        },
+        {
+            "_target_": "RandShiftIntensityd",
+            "keys": [
+                "image"
+            ],
+            "offsets": 0.1,
+            "prob": 0.2
+        },
+        {
+            "_target_": "RandGaussianNoised",
+            "keys": [
+                "image"
+            ],
+            "prob": 0.2,
+            "mean": 0.0,
+            "std": 0.2
+        },
+        {
+            "_target_": "monai.apps.vista3d.transforms.Relabeld",
+            "keys": "label",
+            "label_mappings": "@label_mappings",
+            "dtype": "$torch.uint8"
+        }
+    ],
+    "train#handlers#0#strict": false,
+    "train#dataset": {
+        "_target_": "CacheDataset",
+        "data": "$@train_datalist[:@n_train_samples]",
+        "transform": "@train#preprocessing",
+        "cache_rate": "@train_dataset_cache_rate",
+        "hash_as_key": true,
+        "num_workers": "@num_cache_workers",
+        "progress": "@show_cache_progress"
+    },
+    "validate#dataset": {
+        "_target_": "CacheDataset",
+        "data": "$@val_datalist[:@n_val_samples]",
+        "transform": "@validate#preprocessing",
+        "cache_rate": "@val_dataset_cache_rate",
+        "hash_as_key": true,
+        "num_workers": "@num_cache_workers",
+        "progress": "@show_cache_progress"
+    },
+    "validate#evaluator#hyper_kwargs#val_label_set": "$list(range(len(@val_label_set)))",
+    "validate#preprocessing#transforms": "$@train#deterministic_transforms + [@valid_remap]",
+    "valid_remap": {
+        "_target_": "monai.apps.vista3d.transforms.Relabeld",
+        "keys": "label",
+        "label_mappings": "${'default': [[c, i] for i, c in enumerate(@val_label_set)]}",
+        "dtype": "$torch.uint8"
+    },
+    "validate#handlers#3#key_metric_filename": "model_finetune.pt"
+}
