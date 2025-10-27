@@ -1,7 +1,5 @@
 # NV-Segment: Medical Image Segmentation Foundation Models
 
-![Segmentation Demo](../.github/profile/segment.gif)
-
 This repository contains two NVIDIA medical segmentation foundation models for 3D medical image segmentation.
 
 ## Model Comparison
