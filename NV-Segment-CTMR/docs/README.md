@@ -1,40 +1,53 @@
 # Model Overview
 NV-Segment-CTMR is a unified CT and MRI segmentation foundation model. It is based on VISTA3D CT model and extended to both CT and MRI. Please refer to https://github.com/Project-MONAI/VISTA/tree/main/vista3d for more information.
 
-# Installation Guide
-Please pip install the required packages defined in `configs/metadata.json`.
-Download the `model.pt` checkpoint from [huggingface](https://huggingface.co/nvidia/NV-Segment-CTMR/) and put under folder `models`s
-# Inference:
-The bundle only provides single-gpu inference. User can modify within the inference [config](../configs/inference.json). 
+## Performance on held-out test set
+<div align="center"> <img src="./benchmarkct.png" width="49%"/><img src="./benchmarkmr.png" width="49%"/> </div>
 
-## Label definition and segment everything
-We defined 345 classes as in [label_dict.json](../configs/label_dict.json). It shows the label organ name, index, training dataset, modality and evaluation dice score. If a class only comes from CT training dataset, it may not perform well on MRI, but the actual performance will vary case by case. We support three type of segment everything "CT_BODY", "MRI_BODY", and "MRI_BRAIN".  "CT_BODY" is the previous VISTA3D bundle supported 132 CT classes. "MRI_BODY" shares the same 50 label class as TotalsegmentatorMR. "MRI_BRAIN" is trained on skull stripped LUMIR dataset and will segment brain MRI substructures. The exact mapping for those three everything labels can be found in [metadata.json](../configs/metadata.json)
+
+### Quick Start
+#### Installation
+```bash
+# use the same conda env as this repo
+conda create -y -n vista3d-nv python=3.9
+conda activate vista3d-nv
+git clone https://github.com/NVIDIA-Medtech/NV-Segment-CTMR.git
+cd NV-Segment-CTMR/NV-Segment-CTMR;
+pip install -r requirements.txt;
+cd ..;
+mkdir NV-Segment-CTMR/models
+# download from huggingface link
+wget -O NV-Segment-CTMR/models/model.pt https://huggingface.co/nvidia/NV-Segment-CTMR/resolve/main/vista3d_pretrained_model/model.pt
 ```
-Note: For brain structure segmentation, the brain T1 images must be preprocessed with skull stripping and normalization. Follow https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing to process the brain images
-```
+
+
+## Automatic Segmentation (support multi-gpu batch processing)
+We defined 345 classes as in [label_dict.json](../configs/label_dict.json). It shows the label organ name, index, training dataset, modality and evaluation dice score. If a class only comes from CT training dataset, it may not perform well on MRI, but the actual performance will vary case by case. We support three type of segment everything "CT_BODY", "MRI_BODY", and "MRI_BRAIN".  "CT_BODY" is the previous VISTA3D bundle supported 132 CT classes. "MRI_BODY" shares the same 50 label class as TotalsegmentatorMR. "MRI_BRAIN" is trained on skull stripped [LUMIR](https://github.com/JHU-MedImage-Reg/LUMIR_L2R) dataset and will segment brain MRI substructures. Preprocessing is needed. Following [tutorials](https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing). The exact mapping for those three everything labels can be found in [metadata.json](../configs/metadata.json)
+
 ## Single image inference to segment everything (automatic)
-The output will be saved to `output_dir/spleen_03/spleen_03_{output_postfix}{output_ext}`. By default the everything will be "CT_BODY".
+The output will be saved to `output_dir/s0289/s0289_{output_postfix}{output_ext}`. By default the everything will be "CT_BODY". Add "MRI_BODY" to segment the MRI body classes.
+```python
+# Automatic Segment everything. It requires a modality key. We allow "CT_BODY", "MRI_BODY", and "MRI_BRAIN". For brain, we require preprocessing.
+python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'example/s0289.nii.gz'}" --modality MRI_BODY
 ```
-python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'spleen_03.nii.gz'}"
-```
-Add "MRI_BODY" to segment the MRI body classes.
-```
-python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'spleen_03.nii.gz'}" --modality MRI_BODY
-```
+
 ## Single image inference to segment specific class (automatic)
 The detailed automatic segmentation class index can be found [here](../configs/label_dict.json).
-```
-python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'spleen_03.nii.gz','label_prompt':[3]}"
+```python
+# Automatic Segment specific class
+python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'example/s0289.nii.gz','label_prompt':[3]}"
 ```
 
-## Batch inference for segmenting everything (automatic)
+## Batch inference with multiGPU support for segmenting everything (automatic)
+```python
+# Segment MRI_BODY within example folder
+python -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json']" --input_dir="example/" --output_dir="example/" --modality MRI_BODY
 ```
-python -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json']" --input_dir="/data/Task09_Spleen/imagesTr" --output_dir="./eval_task09"
+```python
+# Automatic Batch segmentation for the whole folder with multi-gpu support. mgpu_inference.json is below. change nproc_per_node to your GPU number.
+torchrun --nproc_per_node=2 --nnodes=1 -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json', 'configs/mgpu_inference.json']" --input_dir="example/" --output_dir="example/"
 ```
-Add "MRI_BODY" to segment the MRI body classes.
-```
-python -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json']" --modality MRI_BODY --input_dir="/data/Task09_Spleen/imagesTr" --output_dir="./eval_task09"
-```
+
 
 `configs/batch_inference.json` by default runs the segment everything workflow (classes defined by `everything_labels`) on all (`*.nii.gz`) files in `input_dir`.
 This default is overridable by changing the input folder `input_dir`, or the input image name suffix `input_suffix`, or directly setting the list of filenames `input_list`.
@@ -43,10 +56,37 @@ This default is overridable by changing the input folder `input_dir`, or the inp
 Note: if using the finetuned checkpoint and the finetuning label_mapping mapped to global index "2, 20, 21", remove the `subclass` dict from inference.json since those values defined in `subclass` will trigger the wrong subclass segmentation.
 ```
 
-## Configuration details and interactive segmentation
+## Brain MRI segmentation
+For brain MRI segmentation, we only support T1 and require preprocessing.
+```bash
+# Install required preprocessing packages.
+cd NV-Segment-CTMR;
+conda activate vista3d-nv
+git clone https://github.com/junyuchen245/MIR.git
+# For MRI brain T1 segmentation, we need preprocessing
+cd MIR; pip install -e . --no-deps
+pip install antspyx pymedio pydicom SimpleITK
+# skull strip docker file
+curl -O https://raw.githubusercontent.com/freesurfer/freesurfer/dev/mri_synthstrip/synthstrip-docker && chmod +x synthstrip-docker
+cd ..;
+```
 
-For inference, VISTA3d bundle requires at least one prompt for segmentation. It supports label prompt, which is the index of the class for automatic segmentation.
-It also supports point click prompts for binary interactive segmentation. User can provide both prompts at the same time. Please refer to [this](inference.md).
+```bash
+# Run preprocessing, segmentation, and revert results back.
+input=example/brain_t1.nii.gz # change to your file path
+output=example/brain_t1_preprocessed.nii.gz # intermediate results save path
+# segmentation results will be saved to ./eval/$output_trans.nii.gz. User can modify saved name in inference.json file.
+segmentation_saved=eval/brain_t1_preprocessed/brain_t1_preprocessed_trans.nii.gz
+# Skull stripping with SynthStrip. Skip if already skull stripped.
+./MIR/synthstrip-docker -i $input -o $output
+# Affine align to the LUMIR template
+python MIR/tutorials/brain_MRI_preprocessing/preprocess.py $output MIR/tutorials/brain_MRI_preprocessing/LUMIR_template.nii.gz $output --save-preprocess $output.preprocess.json
+# Segment the brain
+python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'$output'}" --modality MRI_BRAIN
+# Revert the image back
+# Revert a processed mask back to the original space
+python MIR/tutorials/brain_MRI_preprocessing/revert_preprocess.py $output --out $output.revert.nii.gz --mask $segmentation_saved --mask-out $segmentation_saved --meta $output.preprocess.json
+```
 
 ## Execute inference with the TensorRT model:
 

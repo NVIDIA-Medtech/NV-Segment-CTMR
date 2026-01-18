@@ -164,10 +164,10 @@ class Vista3dEvaluator(SupervisedEvaluator):
             if isinstance(label_prompt, list):
                 if not np.all([len(_) == 1 for _ in label_prompt]):
                     raise ValueError("Label prompt must be a list of single scalar, [1,2,3,4,...,].")
-                if not np.all([(x < 512).item() for x in label_prompt]):
-                    raise ValueError("Current bundle only supports label prompt smaller than 512.")
+                if not np.all([(x < 255).item() for x in label_prompt]):
+                    raise ValueError("Current bundle only supports label prompt smaller than 255.")
                 if points is None:
-                    supported_list = list({i + 1 for i in range(345)} - {16, 129, 130, 131, 133, 137, 138, 139, 140, 141, 142, 143, 144, 145, 162})
+                    supported_list = list({i + 1 for i in range(132)} - {16, 18, 129, 130, 131})
                     if not np.all([x in supported_list for x in label_prompt]):
                         raise ValueError("Undefined label prompt detected. Provide point prompts for zero-shot.")
             else:
