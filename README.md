@@ -13,6 +13,20 @@ Both models follow the MONAI bundle architecture.
 | **Segmentation Type** | Automatic + Interactive (point-click) | Automatic only |
 | **Model Weights**     | [NV-Segment-CT on HuggingFace](https://huggingface.co/nvidia/NV-Segment-CT) | [NV-Segment-CTMR on HuggingFace](https://huggingface.co/nvidia/NV-Segment-CTMR) |
 
+
+**NV-Segment-CT** ([`Paper`](https://arxiv.org/pdf/2406.05285)) is a foundation model trained systematically on 11,454 volumes encompassing 127 types of human anatomical structures and various lesions. The model provides State-of-the-art performances on:
+- out-of-the-box automatic segmentation on 3D CT scans
+- zero-shot interactive segmentation in 3D CT scans
+- automatic segemntation + interactive refinement
+
+**NV-Segment-CTMR** starts from NV-Segment-CT checkpoint and finetuned on over 30K CT and MRI scans, supporting over 300 classes.  
+- out-of-the-box automatic segmentation on 3D CT scans
+- share the same architecture with VISTA3D-CT model but we only trained the automatic segmentation branch with larger CT and MRI datasets.
+
+## Performance on held-out test set
+<div align="center"> <img src="./NV-Segment-CTMR/docs/benchmarkct.png" width="49%"/><img src="./NV-Segment-CTMR/docs/benchmarkmr.png" width="49%"/> </div>
+
+
 ## Resources
 
 - **Quick Deployment**: [NVIDIA NIM for NV-Segment-CT](https://build.nvidia.com/nvidia/vista-3d) - Managed API endpoint

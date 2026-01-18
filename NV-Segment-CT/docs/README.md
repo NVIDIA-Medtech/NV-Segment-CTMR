@@ -2,45 +2,45 @@
 NV-Segment-CT is a copy from the VISTA3D monai model zoo. This is the Vista3D model fintuning/evaluation/inference pipeline. VISTA3D is trained using over 20 partial datasets with more complicated pipeline. To avoid confusion, we will only provide finetuning/continual learning APIs for users to finetune on their
 own datasets. To reproduce the paper results, please refer to https://github.com/Project-MONAI/VISTA/tree/main/vista3d
 
-# Installation Guide
-Please pip install the required packages defined in `configs/metadata.json`.
-Download the `model.pt` checkpoint from [huggingface](https://huggingface.co/nvidia/NV-Segment-CT/) and put under folder `models`
-# Inference:
-The bundle only provides single-gpu inference. User can modify within the inference [config](../configs/inference.json). 
-
-## Label definition and segment everything
-We defined 345 classes as in [label_dict.json](../configs/label_dict.json). It shows the label organ name, index, training dataset, modality and evaluation dice score. If a class only comes from CT training dataset, it may not perform well on MRI, but the actual performance will vary case by case. We support three type of segment everything "CT_BODY", "MRI_BODY", and "MRI_BRAIN".  "CT_BODY" is the previous VISTA3D bundle supported 132 CT classes. "MRI_BODY" shares the same 50 label class as TotalsegmentatorMR. "MRI_BRAIN" is trained on skull stripped LUMIR dataset and will segment brain MRI substructures. The exact mapping for those three everything labels can be found in [metadata.json](../configs/metadata.json)
-
-## Single image inference to segment everything (automatic)
-The output will be saved to `output_dir/spleen_03/spleen_03_{output_postfix}{output_ext}`. By default the everything will be "CT_BODY".
-```
-python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'spleen_03.nii.gz'}
-```
-Add "MRI_BODY" to segment the MRI body classes.
-```
-python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'spleen_03.nii.gz'} --modality MRI_BODY
-```
-## Single image inference to segment specific class (automatic)
-The detailed automatic segmentation class index can be found [here](../configs/label_dict.json).
-```
-python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'spleen_03.nii.gz','label_prompt':[3]}
+### Quick Start
+#### Installation
+```bash
+# use the same conda env as this repo
+conda create -y -n vista3d-nv python=3.9
+conda activate vista3d-nv
+git clone https://github.com/NVIDIA-Medtech/NV-Segment-CTMR.git
+cd NV-Segment-CTMR/NV-Segment-CT;
+pip install -r requirements.txt;
+cd ..;
+mkdir NV-Segment-CT/models;
+# download from huggingface link
+wget -O NV-Segment-CT/models/model.pt https://huggingface.co/nvidia/NV-Segment-CT/resolve/main/vista3d_pretrained_model/model.pt
 ```
 
-## Batch inference for segmenting everything (automatic)
-```
-python -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json']" --input_dir="/data/Task09_Spleen/imagesTr" --output_dir="./eval_task09"
-```
-Add "MRI_BODY" to segment the MRI body classes.
-```
-python -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json']" --modality MRI_BODY --input_dir="/data/Task09_Spleen/imagesTr" --output_dir="./eval_task09"
-```
+## 1.1 **VISTA3D-CT**[[Github]](https://github.com/NVIDIA-Medtech/NV-Segment-CTMR/tree/main/NV-Segment-CT)[[Huggingface]](https://huggingface.co/nvidia/NV-Segment-CT)
 
-`configs/batch_inference.json` by default runs the segment everything workflow (classes defined by `everything_labels`) on all (`*.nii.gz`) files in `input_dir`.
-This default is overridable by changing the input folder `input_dir`, or the input image name suffix `input_suffix`, or directly setting the list of filenames `input_list`.
+#### Automatic Segmentation (support multi-gpu batch processing)
+[class definition](https://github.com/NVIDIA-Medtech/NV-Segment-CTMR/blob/main/NV-Segment-CTMR/configs/label_dict.json)
+```bash
+# CT sementation
+cd NV-Segment-CT
+# Automatic Segment everything
+python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'example/spleen_03.nii.gz'}"
+# Automatic Segment specific class
+python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'example/spleen_03.nii.gz','label_prompt':[3]}"
+# Automatic Batch segmentation for the whole folder
+python -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json']" --input_dir="example/" --output_dir="example/"
+# Automatic Batch segmentation for the whole folder with multi-gpu support. mgpu_inference.json is below. change nproc_per_node to your GPU number.
+torchrun --nproc_per_node=2 --nnodes=1 -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json', 'configs/mgpu_inference.json']" --input_dir="example/" --output_dir="example/"
+```
+#### Interactive segmentation 
+```bash
+# Points must be three dimensional (x,y,z) in the shape of [[x,y,z],...,[x,y,z]]. Point labels can only be -1(ignore), 0(negative), 1(positive) and 2(negative for special overlaped class like tumor), 3(positive for special class). Only supporting 1 class per inference. The output 255 represents NaN value which means not processed region. If you provide label_prompt at the same time, the results will be auto + interactive refinement.
+cd NV-Segment-CT
+python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'example/spleen_03.nii.gz','points':[[128,128,16], [100,100,16]],'point_labels':[1, 0]}"
+```
+**NOTE** MONAI bundle accepts multiple json config files and input arguments. The latter configs/arguments will overide the previous configs/arguments if they have overlapping keys. 
 
-```
-Note: if using the finetuned checkpoint and the finetuning label_mapping mapped to global index "2, 20, 21", remove the `subclass` dict from inference.json since those values defined in `subclass` will trigger the wrong subclass segmentation.
-```
 
 ## Configuration details and interactive segmentation
 

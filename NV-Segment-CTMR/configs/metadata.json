@@ -8,14 +8,22 @@
     "pytorch_version": "2.4.0",
     "numpy_version": "1.24.4",
     "required_packages_version": {
-        "matplotlib": "3.9.1",
-        "einops": "0.7.0",
-        "scikit-image": "0.23.2",
+        "fire": "0.6.0",
+        "matplotlib": "3.8.3",
         "nibabel": "5.2.1",
-        "pytorch-ignite": "0.4.11",
-        "cucim-cu12": "24.6.0",
-        "mlflow": "2.17.2",
-        "tensorboard": "2.17.0"
+        "Pillow": "10.4.0",
+        "PyYAML": "6.0.2",
+        "scipy": "1.13.1",
+        "scikit-image": "0.24.0",
+        "torch": "2.0.1",
+        "tqdm": "4.66.2",
+        "tensorboard": "2.13.0",
+        "einops": "0.6.1",
+        "ml-collections": "0.1.1",
+        "timm": "1.0.24",
+        "pytorch-ignite": "0.5.3",
+        "tensorboardX": "2.6.4",
+        "mlflow": "3.1.4"
     },
     "supported_apps": {
         "vista3d-nim": ""

@@ -15,13 +15,8 @@
     "output_dtype": "$np.float32",
     "output_postfix": "trans",
     "separate_folder": true,
-    "input_dict": "${'image': 'example/amos_0001.nii.gz'}",
-    "label_mapping": "$json.loads(pathlib.Path(@bundle_root + '/configs/label_mappings.json').read_text())",
-    "ct_body": "$list(set([i+1 for i in range(132)]) - set([2,16,18,20,21,23,24,25,26,27,128,129,130,131,132]))",
-    "mri_body": "$[i[1] for i in @label_mapping['TotalSegmentatorMR']]",
-    "mri_brain": "$[i[1] for i in @label_mapping['LUMIR']]",
-    "modality": "CT_BODY",
-    "everything_labels": "${'CT_BODY': @ct_body, 'MRI_BODY': @mri_body, 'MRI_BRAIN': @mri_brain}[@modality]",
+    "input_dict": "${'image': '/data/Task09_Spleen/imagesTr/spleen_10.nii.gz', 'label_prompt': [3]}",
+    "everything_labels": "$list(set([i+1 for i in range(132)]) - set([2,16,18,20,21,23,24,25,26,27,128,129,130,131,132]))",
     "metadata_path": "$@bundle_root + '/configs/metadata.json'",
     "metadata": "$json.loads(pathlib.Path(@metadata_path).read_text())",
     "labels_dict": "$@metadata['network_data_format']['outputs']['pred']['channel_def']",
@@ -47,8 +42,8 @@
     ],
     "sw_batch_size": 1,
     "patch_size": [
-        192,
-        192,
+        128,
+        128,
         128
     ],
     "device": "$torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')",
@@ -91,10 +86,10 @@
             "labels_dict": "@labels_dict"
         },
         {
-            "_target_": "ScaleIntensityRangePercentilesd",
+            "_target_": "ScaleIntensityRanged",
             "keys": "@image_key",
-            "lower": 1,
-            "upper": 99,
+            "a_min": -963.8247715525971,
+            "a_max": 1053.678477684517,
             "b_min": 0,
             "b_max": 1,
             "clip": true
@@ -179,7 +174,7 @@
     ],
     "checkpointloader": {
         "_target_": "CheckpointLoader",
-        "load_path": "$@bundle_root + '/models/model_mrct.pt'",
+        "load_path": "$@bundle_root + '/models/model.pt'",
         "load_dict": {
             "model": "@network"
         },
