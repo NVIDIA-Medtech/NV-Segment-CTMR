@@ -8,45 +8,68 @@ NV-Segment-CTMR is a unified CT and MRI segmentation foundation model. It is bas
 ### Quick Start
 #### Installation
 ```bash
-# use the same conda env as this repo
+# Create and activate conda environment
 conda create -y -n vista3d-nv python=3.9
 conda activate vista3d-nv
+
+# Clone repository
 git clone https://github.com/NVIDIA-Medtech/NV-Segment-CTMR.git
-cd NV-Segment-CTMR/NV-Segment-CTMR;
-pip install -r requirements.txt;
-cd ..;
-mkdir NV-Segment-CTMR/models
-# download from huggingface link
+cd NV-Segment-CTMR/NV-Segment-CTMR
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Create models directory and download pretrained model
+cd ..
+mkdir -p NV-Segment-CTMR/models
 wget -O NV-Segment-CTMR/models/model.pt https://huggingface.co/nvidia/NV-Segment-CTMR/resolve/main/vista3d_pretrained_model/model.pt
 ```
 
 
 ## Automatic Segmentation (support multi-gpu batch processing)
-We defined 345 classes as in [label_dict.json](../configs/label_dict.json). It shows the label organ name, index, training dataset, modality and evaluation dice score. If a class only comes from CT training dataset, it may not perform well on MRI, but the actual performance will vary case by case. We support three type of segment everything "CT_BODY", "MRI_BODY", and "MRI_BRAIN".  "CT_BODY" is the previous VISTA3D bundle supported 132 CT classes. "MRI_BODY" shares the same 50 label class as TotalsegmentatorMR. "MRI_BRAIN" is trained on skull stripped [LUMIR](https://github.com/JHU-MedImage-Reg/LUMIR_L2R) dataset and will segment brain MRI substructures. Preprocessing is needed. Following [tutorials](https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing). The exact mapping for those three everything labels can be found in [metadata.json](../configs/metadata.json)
+We defined 345 classes as in [label_dict.json](../configs/label_dict.json). It shows the label organ name, index, training dataset, modality and evaluation dice score. If a class only comes from CT training dataset, it may not perform well on MRI, but the actual performance will vary case by case. We support three types of segment everything: "CT_BODY", "MRI_BODY", and "MRI_BRAIN". "CT_BODY" is the previous VISTA3D bundle supported 132 CT classes. "MRI_BODY" shares the same 50 label classes as TotalsegmentatorMR. "MRI_BRAIN" is trained on skull stripped [LUMIR](https://github.com/JHU-MedImage-Reg/LUMIR_L2R) dataset and will segment brain MRI substructures. Preprocessing is needed. Follow [tutorials](https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing). The exact mapping for those three everything labels can be found in [metadata.json](../configs/metadata.json).
 
 ## Single image inference to segment everything (automatic)
 The output will be saved to `output_dir/s0289/s0289_{output_postfix}{output_ext}`. By default the everything will be "CT_BODY". Add "MRI_BODY" to segment the MRI body classes.
-```python
+
+```bash
+# Make sure conda environment is activated
+conda activate vista3d-nv
+
 # Automatic Segment everything. It requires a modality key. We allow "CT_BODY", "MRI_BODY", and "MRI_BRAIN". For brain, we require preprocessing.
 python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'example/s0289.nii.gz'}" --modality MRI_BODY
 ```
 
 ## Single image inference to segment specific class (automatic)
 The detailed automatic segmentation class index can be found [here](../configs/label_dict.json).
-```python
+
+```bash
 # Automatic Segment specific class
 python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'example/s0289.nii.gz','label_prompt':[3]}"
 ```
 
 ## Batch inference with multiGPU support for segmenting everything (automatic)
-```python
+
+### Single-GPU Batch Inference
+```bash
+# Make sure conda environment is activated
+conda activate vista3d-nv
+
 # Segment MRI_BODY within example folder
 python -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json']" --input_dir="example/" --output_dir="example/" --modality MRI_BODY
 ```
-```python
-# Automatic Batch segmentation for the whole folder with multi-gpu support. mgpu_inference.json is below. change nproc_per_node to your GPU number.
+
+### Multi-GPU Batch Inference
+**Important**: Always activate your conda environment before running `torchrun`. If you don't, you may encounter `ModuleNotFoundError` because `torchrun` will use the system Python instead of your conda environment's Python.
+
+```bash
+# Activate conda environment first (CRITICAL!)
+conda activate vista3d-nv
+
+# Automatic Batch segmentation for the whole folder with multi-gpu support
+# Change --nproc_per_node to match your number of GPUs
 torchrun --nproc_per_node=2 --nnodes=1 -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json', 'configs/mgpu_inference.json']" --input_dir="example/" --output_dir="example/"
-```
+```             
 
 
 `configs/batch_inference.json` by default runs the segment everything workflow (classes defined by `everything_labels`) on all (`*.nii.gz`) files in `input_dir`.
@@ -57,42 +80,81 @@ Note: if using the finetuned checkpoint and the finetuning label_mapping mapped 
 ```
 
 ## Brain MRI segmentation
-For brain MRI segmentation, we only support T1 and require preprocessing.
+For brain MRI segmentation, we only support T1 and require preprocessing. We provide a convenient bash script that handles all preprocessing steps automatically.
+
+### Using the Brain Segmentation Script
+
+The script `brain_t1_preprocess/run_brain_segmentation.sh` automates the entire pipeline: skull stripping, preprocessing, segmentation, and reverting results back to original space. It also handles temporary file cleanup automatically. It is modified from [MIR tutorials](https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing).
+
+#### Single File Processing
 ```bash
-# Install required preprocessing packages.
-cd NV-Segment-CTMR;
-conda activate vista3d-nv
-git clone https://github.com/junyuchen245/MIR.git
-# For MRI brain T1 segmentation, we need preprocessing
-cd MIR; pip install -e . --no-deps
-pip install antspyx pymedio pydicom SimpleITK
-# skull strip docker file
-curl -O https://raw.githubusercontent.com/freesurfer/freesurfer/dev/mri_synthstrip/synthstrip-docker && chmod +x synthstrip-docker
-cd ..;
+# Process a single brain MRI file
+./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz
+
+# Specify custom output directory
+./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz --output_dir results/
+
+# Keep temporary files for debugging
+./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz --keep-temp
 ```
 
+#### Batch Processing
 ```bash
-# Run preprocessing, segmentation, and revert results back.
-input=example/brain_t1.nii.gz # change to your file path
-output=example/brain_t1_preprocessed.nii.gz # intermediate results save path
-# segmentation results will be saved to ./eval/$output_trans.nii.gz. User can modify saved name in inference.json file.
-segmentation_saved=eval/brain_t1_preprocessed/brain_t1_preprocessed_trans.nii.gz
-# Skull stripping with SynthStrip. Skip if already skull stripped.
-./MIR/synthstrip-docker -i $input -o $output
-# Affine align to the LUMIR template
-python MIR/tutorials/brain_MRI_preprocessing/preprocess.py $output MIR/tutorials/brain_MRI_preprocessing/LUMIR_template.nii.gz $output --save-preprocess $output.preprocess.json
-# Segment the brain
-python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'$output'}" --modality MRI_BRAIN
-# Revert the image back
-# Revert a processed mask back to the original space
-python MIR/tutorials/brain_MRI_preprocessing/revert_preprocess.py $output --out $output.revert.nii.gz --mask $segmentation_saved --mask-out $segmentation_saved --meta $output.preprocess.json
+# Process all NIfTI files in a folder
+./brain_t1_preprocess/run_brain_segmentation.sh --input_folder example/ --output_dir results/
+
+# Batch processing with temporary files kept
+./brain_t1_preprocess/run_brain_segmentation.sh --input_folder example/ --keep-temp
+```
+
+#### Script Options
+- `--input FILE`: Single NIfTI file to segment
+- `--input_folder FOLDER`: Folder containing NIfTI files (batch mode)
+- `--output_dir DIR`: Output directory (default: `./eval`)
+- `--keep-temp`: Keep temporary preprocessing files (default: false, files are cleaned up automatically)
+- `--modality MODALITY`: Segmentation modality: `MRI_BRAIN` (default), `MRI_BODY`, `CT_BODY`
+- `--conda-env ENV`: Conda environment name (default: `vista3d-nv`)
+- `-h, --help`: Show help message
+
+**Note**: The script automatically activates the conda environment and handles all temporary file management. By default, temporary files are cleaned up after processing. Use `--keep-temp` if you need to inspect intermediate results.
+
+### Manual Processing (Advanced)
+If you need more control over individual steps, you can run them manually:
+
+```bash
+# Make sure conda environment is activated
+conda activate vista3d-nv
+
+# Set variables
+file=brain_t1
+input=example/$file.nii.gz
+skull_stripped=example/${file}_skull_stripped.nii.gz
+preprocess_tmp=example/${file}_p.nii.gz
+preprocess_meta=example/${file}_p.meta.json
+
+# Step 1: Skull stripping with SynthStrip
+./brain_t1_preprocess/synthstrip-docker -i $input -o $skull_stripped
+
+# Step 2: Affine align to the LUMIR template
+python brain_t1_preprocess/preprocess.py $skull_stripped brain_t1_preprocess/LUMIR_template.nii.gz $preprocess_tmp --save-preprocess $preprocess_meta
+
+# Step 3: Segment the brain
+python -m monai.bundle run --config_file configs/inference.json --input_dict "{'image':'$preprocess_tmp'}" --modality MRI_BRAIN
+
+# Step 4: Revert the segmentation back to original space
+# Note: Adjust paths based on actual output location from step 3
+python brain_t1_preprocess/revert_preprocess.py $preprocess_tmp --out ${preprocess_tmp}.revert.nii.gz --mask eval/${file}_p/${file}_p_trans.nii.gz --mask-out eval/${file}_trans.nii.gz --meta $preprocess_meta
 ```
 
 ## Execute inference with the TensorRT model:
 
-```
+```bash
+# Make sure conda environment is activated
+conda activate vista3d-nv
+
 python -m monai.bundle run --config_file "['configs/inference.json', 'configs/inference_trt.json']"
 ```
+
 For more details, please refer to [this](inference.md).
 
 
@@ -145,19 +207,26 @@ For continual learning, user can change `configs/train_continual.json`. More adv
 Change `data_list_file_path` to the absolute path of your data json split. Change `dataset_dir` to the root folder that combines with the relative path in the data json split.
 
 #### 3. Optional hyperparameters and details are [here](finetune.md).
-Hyperparameteers finetuning is important and varies from task to task.
+Hyperparameter finetuning is important and varies from task to task.
 
 ## Step3: Run finetuning
 The hyperparameters in `configs/train_continual.json` will overwrite ones in `configs/train.json`. Configs in the back will overide the previous ones if they have the same key.
 
 Single-GPU:
 ```bash
+# Make sure conda environment is activated
+conda activate vista3d-nv
+
 python -m monai.bundle run \
 	--config_file="['configs/train.json','configs/train_continual.json']"
 ```
 
 Multi-GPU:
 ```bash
+# Activate conda environment first (CRITICAL!)
+conda activate vista3d-nv
+
+# Change --nproc_per_node to match your number of GPUs
 torchrun --nnodes=1 --nproc_per_node=8 -m monai.bundle run \
 	--config_file="['configs/train.json','configs/train_continual.json','configs/multi_gpu_train.json']"
 ```
@@ -182,13 +251,20 @@ NOTE: Evaluation does not support point evaluation.`"validate#evaluator#hyper_kw
 ```
 
 Single-GPU:
-```
+```bash
+# Make sure conda environment is activated
+conda activate vista3d-nv
+
 python -m monai.bundle run \
 	--config_file="['configs/train.json','configs/train_continual.json','configs/evaluate.json']"
 ```
 
 Multi-GPU:
-```
+```bash
+# Activate conda environment first (CRITICAL!)
+conda activate vista3d-nv
+
+# Change --nproc_per_node to match your number of GPUs
 torchrun --nnodes=1 --nproc_per_node=8 -m monai.bundle run \
 	--config_file="['configs/train.json','configs/train_continual.json','configs/evaluate.json','configs/mgpu_evaluate.json']"
 ```
@@ -237,4 +313,4 @@ The model weights included in this project are licensed under the NCLS v1 Licens
 
 Both licenses' full texts have been combined into a single `LICENSE` file. Please refer to this `LICENSE` file for more details about the terms and conditions of both licenses.
 
-For MRI CT joint model. The license is non-commercial and needs furture discussion. 
+For MRI CT joint model. The license is non-commercial and needs future discussion. 
