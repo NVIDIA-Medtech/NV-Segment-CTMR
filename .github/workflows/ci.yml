@@ -1,4 +1,4 @@
-# CI for NV-Generate-CTMR: lint and format checks via pre-commit
+# CI for NV-Segment-CTMR: lint and format checks via pre-commit
 name: CI
 
 on:
