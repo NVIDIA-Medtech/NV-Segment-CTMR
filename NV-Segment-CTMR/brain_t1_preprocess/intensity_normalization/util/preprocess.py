@@ -17,13 +17,12 @@ import argparse
 import logging
 import typing
 
-import nibabel as nib
-import numpy as np
-import pymedio.image as mioi
-
 import intensity_normalization as intnorm
 import intensity_normalization.base_cli as intnormcli
 import intensity_normalization.typing as intnormt
+import nibabel as nib
+import numpy as np
+import pymedio.image as mioi
 
 logger = logging.getLogger(__name__)
 
@@ -79,9 +78,7 @@ def preprocess(
         ants_mask = ants_image.get_mask()
 
     logger.debug("Starting bias field correction.")
-    ants_image = ants.n4_bias_field_correction(
-        ants_image, convergence=n4_convergence_options
-    )
+    ants_image = ants.n4_bias_field_correction(ants_image, convergence=n4_convergence_options)
     if second_n4_with_smoothed_mask:
         smoothed_mask = ants.smooth_image(ants_mask, 1.0)
         logger.debug("Starting 2nd bias field correction.")
@@ -260,9 +257,7 @@ def _to_ants(image: typing.Any) -> ants.ANTsImage:
     if isinstance(image, nib.nifti1.Nifti1Image):
         ants_image = ants.from_nibabel(image)
     elif isinstance(image, mioi.Image):
-        ants_image = ants.from_numpy(
-            image, origin=image.origin, spacing=image.spacing, direction=image.direction
-        )
+        ants_image = ants.from_numpy(image, origin=image.origin, spacing=image.spacing, direction=image.direction)
     elif isinstance(image, np.ndarray):
         ants_image = ants.from_numpy(image)
     elif isinstance(image, ants.ANTsImage):

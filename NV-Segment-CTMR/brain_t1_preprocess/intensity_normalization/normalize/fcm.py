@@ -12,15 +12,14 @@ import logging
 import pathlib
 import typing
 
-import numpy as np
-import numpy.typing as npt
-import pymedio.image as mioi
-
 import intensity_normalization as intnorm
 import intensity_normalization.normalize.base as intnormb
 import intensity_normalization.typing as intnormt
 import intensity_normalization.util.io as intnormio
 import intensity_normalization.util.tissue_membership as intnormtm
+import numpy as np
+import numpy.typing as npt
+import pymedio.image as mioi
 
 logger = logging.getLogger(__name__)
 
@@ -167,9 +166,7 @@ class FCMNormalize(intnormb.LocationScaleCLIMixin, intnormb.SingleImageNormalize
             choices=("wm", "gm", "csf"),
             help="Reference tissue to use for normalization.",
         )
-        exclusive = parent_parser.add_argument_group(
-            "mutually exclusive optional arguments"
-        )
+        exclusive = parent_parser.add_argument_group("mutually exclusive optional arguments")
         group = exclusive.add_mutually_exclusive_group(required=False)
         group.add_argument(
             "-m",
@@ -183,8 +180,7 @@ class FCMNormalize(intnormb.LocationScaleCLIMixin, intnormb.SingleImageNormalize
             "-tm",
             "--tissue-mask",
             type=intnormt.file_path(),
-            help="Path to a mask of a target tissue (usually found through FCM). "
-            "Provide this if not providing the foreground mask.",
+            help="Path to a mask of a target tissue (usually found through FCM). " "Provide this if not providing the foreground mask.",
         )
         return parent_parser
 
@@ -193,9 +189,7 @@ class FCMNormalize(intnormb.LocationScaleCLIMixin, intnormb.SingleImageNormalize
         tt = intnormt.TissueType.from_string(args.tissue_type)
         return cls(norm_value=args.norm_value, tissue_type=tt)
 
-    def call_from_argparse_args(
-        self, args: argparse.Namespace, /, **kwargs: typing.Any
-    ) -> None:
+    def call_from_argparse_args(self, args: argparse.Namespace, /, **kwargs: typing.Any) -> None:
         if args.mask is not None:
             if args.modality is not None:
                 if args.modality.lower() != "t1":

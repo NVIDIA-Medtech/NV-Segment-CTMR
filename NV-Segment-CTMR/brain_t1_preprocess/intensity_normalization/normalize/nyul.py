@@ -11,14 +11,13 @@ import argparse
 import collections.abc
 import typing
 
-import numpy as np
-import numpy.typing as npt
-from scipy.interpolate import interp1d
-
 import intensity_normalization.errors as intnorme
 import intensity_normalization.normalize.base as intnormb
 import intensity_normalization.typing as intnormt
 import intensity_normalization.util.io as intnormio
+import numpy as np
+import numpy.typing as npt
+from scipy.interpolate import interp1d
 
 
 class NyulNormalize(intnormb.DirectoryNormalizeCLI):
@@ -221,14 +220,11 @@ class NyulNormalize(intnormb.DirectoryNormalizeCLI):
             "--percentile-step",
             type=float,
             default=10.0,
-            help="Percentile steps between 'percentile-after-min' and "
-            "'prev-percentile-before-max' for finding standard histogram",
+            help="Percentile steps between 'percentile-after-min' and " "'prev-percentile-before-max' for finding standard histogram",
         )
         return parent_parser
 
-    def call_from_argparse_args(
-        self, args: argparse.Namespace, /, **kwargs: typing.Any
-    ) -> None:
+    def call_from_argparse_args(self, args: argparse.Namespace, /, **kwargs: typing.Any) -> None:
         if args.load_standard_histogram is not None:
             self.load_standard_histogram(args.load_standard_histogram)
             self.fit = lambda *args, **kwargs: None  # type: ignore[method-assign]

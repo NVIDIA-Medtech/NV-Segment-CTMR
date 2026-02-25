@@ -16,12 +16,11 @@ __all__ = [
 import collections.abc
 import pathlib
 import typing
-from typing import List
-import pymedio.image as mioi
 
 import intensity_normalization.typing as intnormt
+import pymedio.image as mioi
 
-PymedioImageList = List[mioi.Image]
+PymedioImageList = list[mioi.Image]
 PymedioMaskListOrNone = typing.Union[PymedioImageList, None]
 
 
@@ -70,11 +69,7 @@ def glob_ext(
     dirpath = pathlib.Path(dirpath)
     if not dirpath.is_dir():
         raise ValueError("'dirpath' must be a directory.")
-    filenames = sorted(
-        dp
-        for dp in dirpath.resolve().glob(f"*.{ext}")
-        if all(exc not in str(dp) for exc in exclude)
-    )
+    filenames = sorted(dp for dp in dirpath.resolve().glob(f"*.{ext}") if all(exc not in str(dp) for exc in exclude))
     return filenames
 
 
@@ -106,10 +101,11 @@ def split_filename(
     return intnormt.SplitFilename(pathlib.Path(path), base, ext)
 
 
-from typing import Generator, Any, Tuple
+from collections.abc import Generator
+from typing import Any
 
-Zipped = Generator[Tuple[Any, ...], None, None]
-#Zipped = typing.Generator[tuple[typing.Any, ...], None, None]
+Zipped = Generator[tuple[Any, ...], None, None]
+# Zipped = typing.Generator[tuple[typing.Any, ...], None, None]
 
 
 def zip_with_nones(*args: typing.Sequence[typing.Any] | None) -> Zipped:

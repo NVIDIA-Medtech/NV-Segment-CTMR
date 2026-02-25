@@ -14,13 +14,12 @@ import pathlib
 import typing
 import warnings
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 import intensity_normalization as intnorm
 import intensity_normalization.base_cli as intnormcli
 import intensity_normalization.typing as intnormt
 import intensity_normalization.util.io as intnormio
+import matplotlib.pyplot as plt
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -96,9 +95,7 @@ class HistogramPlotter(intnormcli.DirectoryCLI):
         exclude: collections.abc.Sequence[str] = ("membership",),
         **kwargs: typing.Any,
     ) -> plt.Axes:
-        images, masks = intnormio.gather_images_and_masks(
-            image_dir, mask_dir, ext=ext, exclude=exclude
-        )
+        images, masks = intnormio.gather_images_and_masks(image_dir, mask_dir, ext=ext, exclude=exclude)
         return self(images, masks, **kwargs)
 
     @staticmethod
@@ -197,12 +194,8 @@ class HistogramPlotter(intnormcli.DirectoryCLI):
     def from_argparse_args(cls, args: argparse.Namespace) -> HistogramPlotter:
         return cls(figsize=args.figsize, alpha=args.alpha, title=args.title)
 
-    def call_from_argparse_args(
-        self, args: argparse.Namespace, /, **kwargs: typing.Any
-    ) -> None:
-        _ = self.from_directories(
-            args.image_dir, args.mask_dir, ext=args.extension, exclude=args.exclude
-        )
+    def call_from_argparse_args(self, args: argparse.Namespace, /, **kwargs: typing.Any) -> None:
+        _ = self.from_directories(args.image_dir, args.mask_dir, ext=args.extension, exclude=args.exclude)
         if args.output is None:
             args.output = pathlib.Path(args.image_dir).resolve() / "hist.pdf"
         logger.info(f"Saving histogram: {args.output}.")

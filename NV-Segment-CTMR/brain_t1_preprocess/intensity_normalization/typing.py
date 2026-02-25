@@ -32,18 +32,18 @@ __all__ = [
 ]
 
 import argparse
-import collections.abc
 import enum
 import os
 import pathlib
 import typing
+from collections.abc import Sequence
+from typing import SupportsIndex, Union
+
+import intensity_normalization as intnorm
 import numpy as np
 import numpy.typing as npt
-from typing import Union, List, Optional
-from typing import Union, Sequence, SupportsIndex
-import intensity_normalization as intnorm
 
-ArgType = Union[argparse.Namespace, List[str], Optional[None]]
+ArgType = Union[argparse.Namespace, list[str], None | None]
 PathLike = Union[str, os.PathLike]
 ShapeLike = Union[SupportsIndex, Sequence[SupportsIndex]]
 
@@ -59,7 +59,7 @@ class Modality(enum.Enum):
     T2: str = "t2"
 
     @classmethod
-    def from_string(cls: typing.Type, string: str | Modality) -> Modality:
+    def from_string(cls: type, string: str | Modality) -> Modality:
         if isinstance(string, cls):
             modality: Modality = string
             return modality
@@ -285,9 +285,7 @@ allowed_metrics = frozenset(
 )
 
 
-def return_none(
-    func: typing.Callable[[typing.Any, typing.Any], typing.Any]
-) -> typing.Callable[[typing.Any, typing.Any], typing.Any]:
+def return_none(func: typing.Callable[[typing.Any, typing.Any], typing.Any]) -> typing.Callable[[typing.Any, typing.Any], typing.Any]:
     def new_func(self: object, string: typing.Any) -> typing.Any:
         if string is None:
             return None
@@ -416,9 +414,7 @@ class NewParseType:
         return self.func(val)
 
 
-def new_parse_type(
-    func: typing.Callable[[typing.Any], typing.Any], name: str
-) -> NewParseType:
+def new_parse_type(func: typing.Callable[[typing.Any], typing.Any], name: str) -> NewParseType:
     return NewParseType(func, name)
 
 
@@ -427,95 +423,70 @@ T_co = typing.TypeVar("T_co", bound="ImageLike", covariant=True)
 U_co = typing.TypeVar("U_co", bound="ImageLike", covariant=True)
 
 NBit = typing.TypeVar("NBit", bound=npt.NBitBase)
-#Float = typing.Union[np.floating[NBit], float]
+# Float = typing.Union[np.floating[NBit], float]
 Float = Union[np.floating, float]
-#Int = typing.Union[np.integer[NBit], int]
+# Int = typing.Union[np.integer[NBit], int]
 Int = Union[int, int]
 
 
 class ImageLike(typing.Protocol[S_co, T_co, U_co]):
     """support anything that implements the methods here"""
 
-    def __gt__(self: T_co, other: typing.Any) -> U_co:
-        ...
+    def __gt__(self: T_co, other: typing.Any) -> U_co: ...
 
-    def __ge__(self: T_co, other: typing.Any) -> U_co:
-        ...
+    def __ge__(self: T_co, other: typing.Any) -> U_co: ...
 
-    def __lt__(self: T_co, other: typing.Any) -> U_co:
-        ...
+    def __lt__(self: T_co, other: typing.Any) -> U_co: ...
 
-    def __le__(self: T_co, other: typing.Any) -> U_co:
-        ...
+    def __le__(self: T_co, other: typing.Any) -> U_co: ...
 
-    def __and__(self: T_co, other: typing.Any) -> U_co:
-        ...
+    def __and__(self: T_co, other: typing.Any) -> U_co: ...
 
-    def __or__(self: T_co, other: typing.Any) -> U_co:
-        ...
+    def __or__(self: T_co, other: typing.Any) -> U_co: ...
 
-    def __add__(self: T_co, other: typing.Any) -> S_co:
-        ...
+    def __add__(self: T_co, other: typing.Any) -> S_co: ...
 
-    def __sub__(self: T_co, other: typing.Any) -> S_co:
-        ...
+    def __sub__(self: T_co, other: typing.Any) -> S_co: ...
 
-    def __mul__(self: T_co, other: typing.Any) -> S_co:
-        ...
+    def __mul__(self: T_co, other: typing.Any) -> S_co: ...
 
-    def __truediv__(self: T_co, other: typing.Any) -> S_co:
-        ...
+    def __truediv__(self: T_co, other: typing.Any) -> S_co: ...
 
-    def __getitem__(self: T_co, item: typing.Any) -> typing.Any:
-        ...
+    def __getitem__(self: T_co, item: typing.Any) -> typing.Any: ...
 
-    def __iter__(self: T_co) -> T_co:
-        ...
+    def __iter__(self: T_co) -> T_co: ...
 
-    def __array__(self) -> npt.NDArray:
-        ...
+    def __array__(self) -> npt.NDArray: ...
 
-    def sum(self) -> Float | Int:
-        ...
+    def sum(self) -> Float | Int: ...
 
     @property
-    def ndim(self) -> Int:
-        ...
+    def ndim(self) -> Int: ...
 
     def any(
         self,
         axis: int | tuple[int, ...] | None = None,
-    ) -> typing.Any:
-        ...
+    ) -> typing.Any: ...
 
-    def nonzero(self) -> typing.Any:
-        ...
+    def nonzero(self) -> typing.Any: ...
 
-    def squeeze(self) -> typing.Any:
-        ...
+    def squeeze(self) -> typing.Any: ...
 
     @property
-    def shape(self) -> tuple[int, ...]:
-        ...
+    def shape(self) -> tuple[int, ...]: ...
 
-    def mean(self) -> float:
-        ...
+    def mean(self) -> float: ...
 
-    def std(self) -> float:
-        ...
+    def std(self) -> float: ...
 
-    def min(self) -> float:
-        ...
+    def min(self) -> float: ...
 
-    def flatten(self: T_co) -> T_co:
-        ...
+    def flatten(self: T_co) -> T_co: ...
 
     def reshape(
         self: T_co,
         *shape: typing.SupportsIndex,
         order: typing.Literal["A", "C", "F"] | None = ...,
-    ) -> T_co:
-        ...
+    ) -> T_co: ...
 
-    def transpose(self: T_co, *axes: int) -> T_co:
-        ...
+    def transpose(self: T_co, *axes: int) -> T_co: ...

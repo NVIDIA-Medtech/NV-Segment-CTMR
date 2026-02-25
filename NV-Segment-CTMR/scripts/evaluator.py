@@ -11,7 +11,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable, Sequence
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import torch
@@ -225,23 +226,17 @@ class Vista3dEvaluator(SupervisedEvaluator):
             label_prompt, points, point_labels = self.check_prompts_format(label_prompt, points, point_labels)
             inputs = inputs.to(engine.device)
             # For N foreground object, label_prompt is [1, N], but the batch number 1 needs to be removed. Convert to [N, 1]
-            label_prompt = (
-                torch.as_tensor([label_prompt]).to(inputs.device)[0].unsqueeze(-1) if label_prompt is not None else None
-            )
+            label_prompt = torch.as_tensor([label_prompt]).to(inputs.device)[0].unsqueeze(-1) if label_prompt is not None else None
             # For points, the size can only be [1, K, 3], where K is the number of points for this single foreground object.
             if points is not None:
                 points = torch.as_tensor([points])
-                points = self.transform_points(
-                    points, np.linalg.inv(inputs.affine[0]) @ inputs.meta["original_affine"][0].numpy()
-                )
+                points = self.transform_points(points, np.linalg.inv(inputs.affine[0]) @ inputs.meta["original_affine"][0].numpy())
                 points = torch.from_numpy(points).to(inputs.device)
             point_labels = torch.as_tensor([point_labels]).to(inputs.device) if point_labels is not None else None
 
         # If validation with ground truth label available.
         else:
-            inputs, labels = engine.prepare_batch(
-                batchdata, engine.state.device, engine.non_blocking, **engine.to_kwargs
-            )
+            inputs, labels = engine.prepare_batch(batchdata, engine.state.device, engine.non_blocking, **engine.to_kwargs)
             # create label prompt, this should be consistent with the label prompt used for training.
             if label_set is None:
                 output_classes = engine.hyper_kwargs["output_classes"]

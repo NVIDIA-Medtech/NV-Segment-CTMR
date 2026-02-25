@@ -11,14 +11,13 @@ import argparse
 import operator
 import typing
 
+import intensity_normalization as intnorm
+import intensity_normalization.base_cli as intnormcli
+import intensity_normalization.typing as intnormt
 import numpy as np
 import numpy.typing as npt
 import pymedio.image as mioi
 from skfuzzy import cmeans
-
-import intensity_normalization as intnorm
-import intensity_normalization.base_cli as intnormcli
-import intensity_normalization.typing as intnormt
 
 
 def find_tissue_memberships(

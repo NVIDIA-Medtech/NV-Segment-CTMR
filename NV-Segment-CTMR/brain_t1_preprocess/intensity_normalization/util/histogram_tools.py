@@ -13,17 +13,14 @@ __all__ = [
     "smooth_histogram",
 ]
 
+import intensity_normalization as intnorm
+import intensity_normalization.typing as intnormt
 import numpy as np
 import scipy.signal
 import statsmodels.api as sm
 
-import intensity_normalization as intnorm
-import intensity_normalization.typing as intnormt
 
-
-def smooth_histogram(
-    image: intnormt.ImageLike, /
-) -> tuple[intnormt.ImageLike, intnormt.ImageLike]:
+def smooth_histogram(image: intnormt.ImageLike, /) -> tuple[intnormt.ImageLike, intnormt.ImageLike]:
     """Use kernel density estimate to get smooth histogram
 
     Args:
@@ -118,9 +115,7 @@ def get_first_tissue_mode(
     return first_tissue_mode
 
 
-def get_tissue_mode(
-    image: intnormt.ImageLike, /, *, modality: intnormt.Modality
-) -> float:
+def get_tissue_mode(image: intnormt.ImageLike, /, *, modality: intnormt.Modality) -> float:
     """Find the appropriate tissue mode given a modality"""
     modality_ = modality.value
     if modality_ in intnorm.PEAK["last"]:

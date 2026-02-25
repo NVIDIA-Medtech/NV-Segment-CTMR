@@ -10,17 +10,14 @@ __all__ = ["WhiteStripeNormalize"]
 import argparse
 import typing
 
-import numpy as np
-import numpy.typing as npt
-
 import intensity_normalization.normalize.base as intnormb
 import intensity_normalization.typing as intnormt
 import intensity_normalization.util.histogram_tools as intnormhisttool
+import numpy as np
+import numpy.typing as npt
 
 
-class WhiteStripeNormalize(
-    intnormb.LocationScaleCLIMixin, intnormb.SingleImageNormalizeCLI
-):
+class WhiteStripeNormalize(intnormb.LocationScaleCLIMixin, intnormb.SingleImageNormalizeCLI):
     def __init__(
         self,
         *,

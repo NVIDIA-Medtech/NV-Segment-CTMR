@@ -13,25 +13,22 @@ import logging
 import pathlib
 import typing
 
-import numpy as np
-import numpy.typing as npt
-import pymedio.image as mioi
-
 import intensity_normalization as intnorm
 import intensity_normalization.errors as intnorme
 import intensity_normalization.normalize.base as intnormb
 import intensity_normalization.typing as intnormt
 import intensity_normalization.util.io as intnormio
 import intensity_normalization.util.tissue_membership as intnormtm
+import numpy as np
+import numpy.typing as npt
+import pymedio.image as mioi
 
 logger = logging.getLogger(__name__)
 
 S = typing.TypeVar("S", bound=intnormt.ImageLike)
 
 
-class LeastSquaresNormalize(
-    intnormb.LocationScaleCLIMixin, intnormb.DirectoryNormalizeCLI
-):
+class LeastSquaresNormalize(intnormb.LocationScaleCLIMixin, intnormb.DirectoryNormalizeCLI):
     def __init__(self, *, norm_value: float = 1.0, **kwargs: typing.Any):
         """Minimize the distance tissue means in a set of images via least-squares"""
         super().__init__(norm_value=norm_value, **kwargs)
@@ -100,9 +97,7 @@ class LeastSquaresNormalize(
             tissue_membership,
         )
 
-    def _fix_tissue_membership(
-        self, image: intnormt.ImageLike, tissue_membership: S
-    ) -> S:
+    def _fix_tissue_membership(self, image: intnormt.ImageLike, tissue_membership: S) -> S:
         image_ndim = int(image.ndim)
         tm_ndim = int(tissue_membership.ndim)
         if tissue_membership.shape[:image_ndim] != image.shape and tm_ndim == 4:
@@ -114,14 +109,9 @@ class LeastSquaresNormalize(
         return tissue_membership
 
     @staticmethod
-    def tissue_means(
-        image: intnormt.ImageLike, /, tissue_membership: intnormt.ImageLike
-    ) -> npt.NDArray:
+    def tissue_means(image: intnormt.ImageLike, /, tissue_membership: intnormt.ImageLike) -> npt.NDArray:
         n_tissues = tissue_membership.shape[-1]
-        weighted_avgs = [
-            np.average(image, weights=tissue_membership[..., i])
-            for i in range(n_tissues)
-        ]
+        weighted_avgs = [np.average(image, weights=tissue_membership[..., i]) for i in range(n_tissues)]
         return np.asarray([weighted_avgs]).T
 
     def scaling_factor(self, tissue_means: npt.NDArray) -> float:
@@ -197,9 +187,7 @@ class LeastSquaresNormalize(
         out = cls(norm_value=args.norm_value)
         return out
 
-    def call_from_argparse_args(
-        self, args: argparse.Namespace, /, **kwargs: typing.Any
-    ) -> None:
+    def call_from_argparse_args(self, args: argparse.Namespace, /, **kwargs: typing.Any) -> None:
         if args.load_standard_tissue_means is not None:
             self.load_standard_tissue_means(args.load_standard_tissue_means)
             self.fit = lambda *args, **kwargs: None  # type: ignore[method-assign]
@@ -299,24 +287,19 @@ class LeastSquaresNormalize(
             type=intnormt.file_path(),
             help="Load a standard tissue means previously fit by the method.",
         )
-        exclusive = parent_parser.add_argument_group(
-            "mutually exclusive optional arguments"
-        )
+        exclusive = parent_parser.add_argument_group("mutually exclusive optional arguments")
         group = exclusive.add_mutually_exclusive_group(required=False)
         group.add_argument(
             "-m",
             "--mask-dir",
             type=intnormt.dir_path(),
             default=None,
-            help="Path to a foreground mask for the image. "
-            "Provide this if not providing a tissue mask "
-            "(if image is not skull-stripped).",
+            help="Path to a foreground mask for the image. " "Provide this if not providing a tissue mask " "(if image is not skull-stripped).",
         )
         group.add_argument(
             "-tm",
             "--tissue-membership-dir",
             type=intnormt.dir_path(),
-            help="Path to a mask of a tissue memberships. "
-            "Provide this if not providing the foreground mask.",
+            help="Path to a mask of a tissue memberships. " "Provide this if not providing the foreground mask.",
         )
         return parent_parser
