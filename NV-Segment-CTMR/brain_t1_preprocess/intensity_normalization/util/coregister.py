@@ -12,12 +12,11 @@ import collections.abc
 import logging
 import typing
 
-import nibabel as nib
-import numpy as np
-
 import intensity_normalization as intnorm
 import intensity_normalization.base_cli as intnormcli
 import intensity_normalization.typing as intnormt
+import nibabel as nib
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -47,13 +46,13 @@ def to_ants(image: ValidImage, /) -> ants.ANTsImage:
 def register(
     image: ValidImage,
     /,
-    template: typing.Optional[ValidImage] = None,
+    template: ValidImage | None = None,
     *,
     type_of_transform: str = "Affine",
     interpolator: str = "bSpline",
     metric: str = "mattes",
     initial_rigid: bool = True,
-    template_mask: typing.Optional[ValidImage] = None,
+    template_mask: ValidImage | None = None,
 ) -> nib.nifti1.Nifti1Image | ants.ANTsImage:
     if template is None:
         standard_mni = ants.get_ants_data("mni")
@@ -229,8 +228,7 @@ class Registrator(intnormcli.SingleImageCLI):
             "-ir",
             "--initial-rigid",
             action="store_true",
-            help="Do a rigid registration before doing "
-            "the `type_of_transform` registration.",
+            help="Do a rigid registration before doing " "the `type_of_transform` registration.",
         )
         parser.add_argument(
             "-v",

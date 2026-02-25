@@ -1,12 +1,14 @@
+import argparse
+import base64
+import io
+import json
+import os
+
+import ants
 import nibabel as nib
 import numpy as np
 from scipy.ndimage import zoom
-import ants
-import argparse
-import json
-import os
-import base64
-import io
+
 
 def reorient_image_to_match(reference_nii, target_nii):
     reference_ornt = nib.aff2axcodes(reference_nii.affine)
@@ -16,45 +18,56 @@ def reorient_image_to_match(reference_nii, target_nii):
     # If orientations don't match, perform reorientation
     if target_ornt != reference_ornt:
         # Calculate the transformation matrix to match the reference orientation
-        ornt_trans = nib.orientations.ornt_transform(nib.io_orientation(target_reoriented.affine),
-                                                     nib.io_orientation(reference_nii.affine))
+        ornt_trans = nib.orientations.ornt_transform(nib.io_orientation(target_reoriented.affine), nib.io_orientation(reference_nii.affine))
         target_reoriented = target_reoriented.as_reoriented(ornt_trans)
     return target_reoriented
 
 
-def resampling(img_npy, img_pixdim, tar_pixdim, order, mode='constant'):
+def resampling(img_npy, img_pixdim, tar_pixdim, order, mode="constant"):
     if order == 0:
         img_npy = img_npy.astype(np.uint16)
-    img_npy = zoom(img_npy, ((img_pixdim[0] / tar_pixdim[0]), (img_pixdim[1] / tar_pixdim[1]), (img_pixdim[2] / tar_pixdim[2])), order=order, prefilter=False, mode=mode)
+    img_npy = zoom(
+        img_npy,
+        ((img_pixdim[0] / tar_pixdim[0]), (img_pixdim[1] / tar_pixdim[1]), (img_pixdim[2] / tar_pixdim[2])),
+        order=order,
+        prefilter=False,
+        mode=mode,
+    )
     return img_npy
 
 
 def main():
     parser = argparse.ArgumentParser(description="Revert preprocessing back to original image space (except intensity normalization).")
     parser.add_argument("processed_path", help="Path to processed image in template space (NIfTI)")
-    parser.add_argument("--out", dest="output_path", nargs='?', default=None,
-                        help="Path to save reverted image (NIfTI)")
-    parser.add_argument("--mask", dest="mask_path", nargs='?', default=None,
-                        help="Path to mask associated with processed image (NIfTI)")
-    parser.add_argument("--mask-out", dest="mask_output_path", nargs='?', default=None,
-                        help="Path to save reverted mask (NIfTI)")
-    parser.add_argument("-t", "--transform", dest="transformlist", nargs='+', default=None,
-                        help="Forward transforms from preprocessing (moving->template). Will be inverted.")
-    parser.add_argument("--meta", dest="meta_path", default=None,
-                        help="Path to preprocessing metadata JSON saved by preprocess.py")
-    parser.add_argument("--interp", default="linear", choices=["linear", "nearestNeighbor", "bspline"],
-                        help="Interpolator for inverse transform")
-    parser.add_argument("--resample-order", type=int, default=2,
-                        help="Interpolation order for resampling back to original spacing")
-    parser.add_argument("--org", dest="original_path", nargs='?', default=None,
-                        help="Path to original image (NIfTI). Optional if --meta includes original geometry")
-    parser.add_argument("--template", dest="template_path", nargs='?', default=None,
-                        help="Path to template image used in preprocessing (NIfTI). Optional if --meta includes template geometry")
+    parser.add_argument("--out", dest="output_path", nargs="?", default=None, help="Path to save reverted image (NIfTI)")
+    parser.add_argument("--mask", dest="mask_path", nargs="?", default=None, help="Path to mask associated with processed image (NIfTI)")
+    parser.add_argument("--mask-out", dest="mask_output_path", nargs="?", default=None, help="Path to save reverted mask (NIfTI)")
+    parser.add_argument(
+        "-t",
+        "--transform",
+        dest="transformlist",
+        nargs="+",
+        default=None,
+        help="Forward transforms from preprocessing (moving->template). Will be inverted.",
+    )
+    parser.add_argument("--meta", dest="meta_path", default=None, help="Path to preprocessing metadata JSON saved by preprocess.py")
+    parser.add_argument("--interp", default="linear", choices=["linear", "nearestNeighbor", "bspline"], help="Interpolator for inverse transform")
+    parser.add_argument("--resample-order", type=int, default=2, help="Interpolation order for resampling back to original spacing")
+    parser.add_argument(
+        "--org", dest="original_path", nargs="?", default=None, help="Path to original image (NIfTI). Optional if --meta includes original geometry"
+    )
+    parser.add_argument(
+        "--template",
+        dest="template_path",
+        nargs="?",
+        default=None,
+        help="Path to template image used in preprocessing (NIfTI). Optional if --meta includes template geometry",
+    )
     args = parser.parse_args()
 
     meta = None
     if args.meta_path is not None:
-        with open(args.meta_path, 'r', encoding='utf-8') as f:
+        with open(args.meta_path, encoding="utf-8") as f:
             meta = json.load(f)
         if args.template_path is None:
             args.template_path = meta.get("template_path")
@@ -104,7 +117,7 @@ def main():
     tar_pixdim = [1.0, 1.0, 1.0]
     if meta is not None and meta.get("target_pixdim") is not None:
         tar_pixdim = meta.get("target_pixdim")
-    original_pixdim = original_reoriented.header.structarr['pixdim'][1:-4]
+    original_pixdim = original_reoriented.header.structarr["pixdim"][1:-4]
     original_reoriented_npy = original_reoriented.get_fdata()
     ref_resampled_npy = resampling(original_reoriented_npy, original_pixdim, tar_pixdim, order=2)
 
@@ -128,18 +141,17 @@ def main():
     inv_npy = inv_ants.numpy()
     reverted_npy = resampling(inv_npy, tar_pixdim, original_pixdim, order=args.resample_order)
 
-    
     # Reorient back to original orientation
     reverted_nib = nib.Nifti1Image(reverted_npy, original_reoriented.affine, header=original_reoriented.header)
     reverted_nib = reorient_image_to_match(original_nib, reverted_nib)
 
     # Save with original header/affine
     out_header = original_header if original_header is not None else original_nib.header.copy()
-    qform_code = out_header['qform_code']
-    sform_code = out_header['sform_code']
-    if hasattr(qform_code, '__len__'):
+    qform_code = out_header["qform_code"]
+    sform_code = out_header["sform_code"]
+    if hasattr(qform_code, "__len__"):
         qform_code = int(np.array(qform_code).ravel()[0])
-    if hasattr(sform_code, '__len__'):
+    if hasattr(sform_code, "__len__"):
         sform_code = int(np.array(sform_code).ravel()[0])
     out_header.set_qform(original_affine, code=int(qform_code))
     out_header.set_sform(original_affine, code=int(sform_code))
@@ -159,7 +171,7 @@ def main():
         )
         inv_mask_npy = inv_mask_ants.numpy()
         reverted_mask_npy = resampling(inv_mask_npy, tar_pixdim, original_pixdim, order=0)
-        
+
         reverted_mask_nib = nib.Nifti1Image(reverted_mask_npy, original_reoriented.affine, header=original_reoriented.header)
         reverted_mask_nib = reorient_image_to_match(original_nib, reverted_mask_nib)
 
@@ -171,12 +183,13 @@ def main():
         if mask_output_path is None:
             if args.output_path is None:
                 raise ValueError("mask_out is required when output_path is not provided")
-            mask_output_path = args.output_path.replace('.nii.gz', '.mask.nii.gz')
+            mask_output_path = args.output_path.replace(".nii.gz", ".mask.nii.gz")
             if mask_output_path == args.output_path:
                 mask_output_path = f"{args.output_path}.mask.nii.gz"
 
         out_mask_nib = nib.Nifti1Image(reverted_mask_nib.get_fdata(), original_affine, header=mask_out_header)
         nib.save(out_mask_nib, mask_output_path)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

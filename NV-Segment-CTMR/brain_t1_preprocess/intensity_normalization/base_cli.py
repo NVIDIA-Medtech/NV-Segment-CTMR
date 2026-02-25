@@ -14,11 +14,10 @@ import pathlib
 import sys
 import typing
 
-import pymedio.image as mioi
-
 import intensity_normalization as intnorm
 import intensity_normalization.typing as intnormt
 import intensity_normalization.util.io as intnormio
+import pymedio.image as mioi
 from intensity_normalization import __version__ as int_norm_version
 
 logger = logging.getLogger(__name__)
@@ -93,9 +92,7 @@ class CLIMixin(metaclass=abc.ABCMeta):
         return parser
 
     @classmethod
-    def main(
-        cls, parser: argparse.ArgumentParser
-    ) -> typing.Callable[[intnormt.ArgType], int]:
+    def main(cls, parser: argparse.ArgumentParser) -> typing.Callable[[intnormt.ArgType], int]:
         def _main(args: intnormt.ArgType = None) -> int:
             if args is None:
                 if len(sys.argv) == 2 and sys.argv[1] == "--version":
@@ -117,13 +114,11 @@ class CLIMixin(metaclass=abc.ABCMeta):
 
     @classmethod
     @abc.abstractmethod
-    def from_argparse_args(cls: typing.Type[T], args: argparse.Namespace) -> T:
+    def from_argparse_args(cls: type[T], args: argparse.Namespace) -> T:
         raise NotImplementedError
 
     @abc.abstractmethod
-    def call_from_argparse_args(
-        self, args: argparse.Namespace, /, **kwargs: typing.Any
-    ) -> None:
+    def call_from_argparse_args(self, args: argparse.Namespace, /, **kwargs: typing.Any) -> None:
         raise NotImplementedError
 
     @staticmethod
@@ -196,9 +191,7 @@ class SingleImageCLI(CLIMixin, metaclass=abc.ABCMeta):
         )
         return parser
 
-    def call_from_argparse_args(
-        self, args: argparse.Namespace, /, **kwargs: typing.Any
-    ) -> None:
+    def call_from_argparse_args(self, args: argparse.Namespace, /, **kwargs: typing.Any) -> None:
         image = self.load_image(args.image)
         mask: intnormt.ImageLike | None
         if hasattr(args, "mask") and args.mask is not None:
@@ -278,7 +271,5 @@ class DirectoryCLI(CLIMixin, metaclass=abc.ABCMeta):
         return parser
 
     @abc.abstractmethod
-    def call_from_argparse_args(
-        self, args: argparse.Namespace, /, **kwargs: typing.Any
-    ) -> None:
+    def call_from_argparse_args(self, args: argparse.Namespace, /, **kwargs: typing.Any) -> None:
         raise NotImplementedError

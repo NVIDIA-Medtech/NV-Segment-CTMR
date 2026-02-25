@@ -11,7 +11,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable, Sequence
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import torch
@@ -177,9 +178,7 @@ class Vista3dTrainer(Trainer):
         )
 
         def _compute_pred_loss():
-            outputs = engine.network(
-                input_images=inputs, point_coords=point, point_labels=point_label, class_vector=label_prompt
-            )
+            outputs = engine.network(input_images=inputs, point_coords=point, point_labels=point_label, class_vector=label_prompt)
             # engine.state.output[Keys.PRED] = outputs
             engine.fire_event(IterationEvents.FORWARD_COMPLETED)
             loss, loss_n = torch.tensor(0.0, device=engine.state.device), torch.tensor(0.0, device=engine.state.device)

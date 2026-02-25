@@ -15,18 +15,17 @@ import operator
 import pathlib
 import typing
 
-import numpy as np
-import numpy.typing as npt
-import pymedio.image as mioi
-import scipy.sparse
-import scipy.sparse.linalg
-
 import intensity_normalization.errors as intnorme
 import intensity_normalization.normalize.base as intnormb
 import intensity_normalization.normalize.whitestripe as intnormws
 import intensity_normalization.typing as intnormt
 import intensity_normalization.util.io as intnormio
 import intensity_normalization.util.tissue_membership as intnormtm
+import numpy as np
+import numpy.typing as npt
+import pymedio.image as mioi
+import scipy.sparse
+import scipy.sparse.linalg
 
 logger = logging.getLogger(__name__)
 
@@ -151,9 +150,7 @@ class RavelNormalize(intnormb.DirectoryNormalizeCLI):
         return csf_mask
 
     @staticmethod
-    def _ravel_correction(
-        control_voxels: npt.NDArray, unwanted_factors: npt.NDArray
-    ) -> npt.NDArray:
+    def _ravel_correction(control_voxels: npt.NDArray, unwanted_factors: npt.NDArray) -> npt.NDArray:
         """Correct control voxels by removing trend from unwanted factors
 
         Args:
@@ -260,11 +257,7 @@ class RavelNormalize(intnormb.DirectoryNormalizeCLI):
             for i, registered in enumerate(registered_images):
                 ctrl_vox = registered[intersection]
                 control_voxels[:, i] = ctrl_vox
-                logger.debug(
-                    f"Image {i+1} control voxels - "
-                    f"mean: {ctrl_vox.mean():.3f}; "
-                    f"std: {ctrl_vox.std():.3f}"
-                )
+                logger.debug(f"Image {i+1} control voxels - " f"mean: {ctrl_vox.mean():.3f}; " f"std: {ctrl_vox.std():.3f}")
         else:
             control_voxels = image_matrix[intersection.flatten(), :]
 
@@ -363,8 +356,7 @@ class RavelNormalize(intnormb.DirectoryNormalizeCLI):
             action="store_false",
             dest="register",
             default=True,
-            help="Do not do deformable registration to find control mask. "
-            "(Assumes images are deformably co-registered).",
+            help="Do not do deformable registration to find control mask. " "(Assumes images are deformably co-registered).",
         )
         parser.add_argument(
             "--sparse-svd",
@@ -376,8 +368,7 @@ class RavelNormalize(intnormb.DirectoryNormalizeCLI):
             "--masks-are-csf",
             action="store_true",
             default=False,
-            help="Use this flag if mask directory corresponds to CSF masks "
-            "instead of brain masks. (Assumes images are deformably co-registered).",
+            help="Use this flag if mask directory corresponds to CSF masks " "instead of brain masks. (Assumes images are deformably co-registered).",
         )
         parser.add_argument(
             "--quantile-to-label-csf",
