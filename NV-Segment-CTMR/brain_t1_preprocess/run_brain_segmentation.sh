@@ -55,19 +55,19 @@ check_conda_env() {
         echo -e "${RED}Error: conda command not found. Please install conda or activate your environment manually.${NC}" >&2
         exit 1
     fi
-    
+
     # Check if environment exists
     if ! conda env list | grep -q "^${CONDA_ENV} "; then
         echo -e "${YELLOW}Warning: Conda environment '${CONDA_ENV}' not found. Attempting to activate anyway...${NC}" >&2
     fi
-    
+
     # Activate conda environment
     eval "$(conda shell.bash hook)"
     conda activate "${CONDA_ENV}" || {
         echo -e "${RED}Error: Failed to activate conda environment '${CONDA_ENV}'.${NC}" >&2
         exit 1
     }
-    
+
     echo -e "${GREEN}Activated conda environment: ${CONDA_ENV}${NC}"
 }
 
@@ -75,36 +75,36 @@ check_conda_env() {
 process_single_file() {
     local input_file="$1"
     local output_dir="${OUTPUT_DIR:-./eval}"
-    
+
     if [[ ! -f "$input_file" ]]; then
         echo -e "${RED}Error: Input file not found: $input_file${NC}" >&2
         exit 1
     fi
-    
+
     # Get absolute paths
     input_file=$(realpath "$input_file")
     output_dir=$(realpath -m "$output_dir")
     mkdir -p "$output_dir"
-    
+
     # Extract filename without extension
     local file_basename=$(basename "$input_file" .nii.gz)
     file_basename=$(basename "$file_basename" .nii)
     local file_dir=$(dirname "$input_file")
-    
+
     # Create temporary directory for this file
     local temp_dir="${file_dir}/${file_basename}_temp"
     mkdir -p "$temp_dir"
-    
+
     # Temporary file paths
     local skull_stripped="${temp_dir}/${file_basename}_skull_stripped.nii.gz"
     local preprocess_tmp="${temp_dir}/${file_basename}_preprocessed.nii.gz"
     local preprocess_meta="${temp_dir}/${file_basename}_preprocessed.meta.json"
     local preprocess_tmp_seg="${output_dir}/${file_basename}_preprocessed/${file_basename}_preprocessed_trans.nii.gz"
     local final_output="${output_dir}/${file_basename}_trans.nii.gz"
-    
+
     echo -e "${GREEN}Processing: $input_file${NC}"
     echo -e "${GREEN}Output will be saved to: $final_output${NC}"
-    
+
     # Step 1: Skull stripping with SynthStrip
     echo -e "${YELLOW}Step 1/4: Skull stripping...${NC}"
     if [[ ! -f "$skull_stripped" ]]; then
@@ -117,7 +117,7 @@ process_single_file() {
     else
         echo -e "${YELLOW}  Skull-stripped file already exists, skipping...${NC}"
     fi
-    
+
     # Step 2: Affine align to the LUMIR template
     echo -e "${YELLOW}Step 2/4: Affine alignment to LUMIR template...${NC}"
     cd "$BUNDLE_ROOT"
@@ -130,7 +130,7 @@ process_single_file() {
         [[ "$KEEP_TEMP" == "false" ]] && rm -rf "$temp_dir"
         exit 1
     }
-    
+
     # Step 3: Segment the brain
     echo -e "${YELLOW}Step 3/4: Running segmentation...${NC}"
     cd "$BUNDLE_ROOT"
@@ -142,7 +142,7 @@ process_single_file() {
         [[ "$KEEP_TEMP" == "false" ]] && rm -rf "$temp_dir"
         exit 1
     }
-    
+
     # Step 4: Revert the segmentation back to original space
     echo -e "${YELLOW}Step 4/4: Reverting to original space...${NC}"
     if [[ ! -f "$preprocess_tmp_seg" ]]; then
@@ -150,7 +150,7 @@ process_single_file() {
         [[ "$KEEP_TEMP" == "false" ]] && rm -rf "$temp_dir"
         exit 1
     fi
-    
+
     cd "$BUNDLE_ROOT"
     python brain_t1_preprocess/revert_preprocess.py \
         "$preprocess_tmp" \
@@ -162,7 +162,7 @@ process_single_file() {
         [[ "$KEEP_TEMP" == "false" ]] && rm -rf "$temp_dir"
         exit 1
     }
-    
+
     # Clean up temporary files if not keeping them
     if [[ "$KEEP_TEMP" == "false" ]]; then
         echo -e "${YELLOW}Cleaning up temporary files...${NC}"
@@ -175,7 +175,7 @@ process_single_file() {
     else
         echo -e "${GREEN}Temporary files kept in: $temp_dir${NC}"
     fi
-    
+
     echo -e "${GREEN}✓ Successfully processed: $input_file${NC}"
     echo -e "${GREEN}  Output saved to: $final_output${NC}"
 }
@@ -184,34 +184,34 @@ process_single_file() {
 process_folder() {
     local input_folder="$1"
     local output_dir="${OUTPUT_DIR:-./eval}"
-    
+
     if [[ ! -d "$input_folder" ]]; then
         echo -e "${RED}Error: Input folder not found: $input_folder${NC}" >&2
         exit 1
     fi
-    
+
     # Get absolute paths
     input_folder=$(realpath "$input_folder")
     output_dir=$(realpath -m "$output_dir")
     mkdir -p "$output_dir"
-    
+
     # Find all NIfTI files
     local files=()
     while IFS= read -r -d '' file; do
         files+=("$file")
     done < <(find "$input_folder" -maxdepth 1 -type f \( -name "*.nii.gz" -o -name "*.nii" \) -print0)
-    
+
     if [[ ${#files[@]} -eq 0 ]]; then
         echo -e "${YELLOW}Warning: No NIfTI files found in $input_folder${NC}" >&2
         exit 1
     fi
-    
+
     echo -e "${GREEN}Found ${#files[@]} file(s) to process${NC}"
-    
+
     # Process each file
     local success_count=0
     local fail_count=0
-    
+
     for file in "${files[@]}"; do
         echo ""
         echo -e "${GREEN}========================================${NC}"
@@ -222,7 +222,7 @@ process_folder() {
             echo -e "${RED}Failed to process: $file${NC}" >&2
         fi
     done
-    
+
     echo ""
     echo -e "${GREEN}========================================${NC}"
     echo -e "${GREEN}Batch processing complete!${NC}"
@@ -303,4 +303,3 @@ else
 fi
 
 echo -e "${GREEN}All done!${NC}"
-
