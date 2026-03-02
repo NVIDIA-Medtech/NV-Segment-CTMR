@@ -12,6 +12,7 @@ Both models follow the MONAI bundle architecture.
 | **Modalities** | CT only | CT + MRI (body & brain) |
 | **Segmentation Type** | Automatic + Interactive (point-click) | Automatic only |
 | **Model Weights**     | [NV-Segment-CT on HuggingFace](https://huggingface.co/nvidia/NV-Segment-CT) | [NV-Segment-CTMR on HuggingFace](https://huggingface.co/nvidia/NV-Segment-CTMR) |
+| **License**     | [Commercial Friendly](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/) | [Non-Commercial](https://developer.download.nvidia.com/licenses/NVIDIA-OneWay-Noncommercial-License-22Mar2022.pdf?t=eyJscyI6InJlZiIsImxzZCI6IlJFRi1naXRodWIuY29tL252aWRpYS1ob2xvc2NhbiJ9) |
 
 **NV-Segment-CT** ([`Paper`](https://arxiv.org/pdf/2406.05285)) is a foundation model trained systematically on 11,454 volumes encompassing 127 types of human anatomical structures and various lesions. The model provides State-of-the-art performances on:
 

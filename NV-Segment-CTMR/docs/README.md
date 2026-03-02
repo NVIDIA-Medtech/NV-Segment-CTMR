@@ -346,8 +346,7 @@ You may obtain a copy of the License at
 
 ### Model Weights License
 
-The model weights included in this project are licensed under the NCLS v1 License.
+The model weights included in this project are licensed under the Non-Commercial 
 
-Both licenses' full texts have been combined into a single `LICENSE` file. Please refer to this `LICENSE` file for more details about the terms and conditions of both licenses.
+[NCLS v1 License](https://developer.download.nvidia.com/licenses/NVIDIA-OneWay-Noncommercial-License-22Mar2022.pdf?t=eyJscyI6InJlZiIsImxzZCI6IlJFRi1naXRodWIuY29tL252aWRpYS1ob2xvc2NhbiJ9)
 
-For MRI CT joint model. The license is non-commercial and needs future discussion.

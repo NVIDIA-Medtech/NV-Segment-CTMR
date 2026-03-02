@@ -208,10 +208,7 @@ The `label_mapping` in `evaluation.json` does not include `0` because the postpr
 - Make sure `0` is not included in your inference prompt for automatic segmentation.
 
 ## References
-
-- Antonelli, M., Reinke, A., Bakas, S. et al. The Medical Segmentation Decathlon. Nat Commun 13, 4128 (2022). <https://doi.org/10.1038/s41467-022-30695-9>
-
-- VISTA3D: Versatile Imaging SegmenTation and Annotation model for 3D Computed Tomography. arxiv (2024) <https://arxiv.org/abs/2406.05285>
+- He, Yufan, et al. "VISTA3D: A unified segmentation foundation model for 3D medical imaging." Proceedings of the Computer Vision and Pattern Recognition Conference. 2025. <https://openaccess.thecvf.com/content/CVPR2025/html/He_VISTA3D_A_Unified_Segmentation_Foundation_Model_For_3D_Medical_Imaging_CVPR_2025_paper.html>
 
 ## License
 
@@ -224,8 +221,6 @@ You may obtain a copy of the License at
 
 ### Model Weights License
 
-The model weights included in this project are licensed under the NCLS v1 License.
+THe model weights license is under commercial friendly
 
-Both licenses' full texts have been combined into a single `LICENSE` file. Please refer to this `LICENSE` file for more details about the terms and conditions of both licenses.
-
-For MRI CT joint model. The license is non-commercial and needs furture discussion.
+[NVIDIA open model license](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/)
