@@ -7,7 +7,8 @@ Pillow==10.4.0
 PyYAML==6.0.2
 scipy
 scikit-image==0.24.0
-torch==2.0.1
+torch==2.1.2
+torchvision==0.16.2
 tqdm==4.66.2
 tensorboard==2.13.0
 einops==0.6.1
@@ -16,3 +17,9 @@ timm
 pytorch-ignite
 tensorboardX
 mlflow
+pymedio
+SimpleITK
+pydicom
+statsmodels
+antspyx
+huggingface_hub

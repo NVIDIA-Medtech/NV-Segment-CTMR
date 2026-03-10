@@ -134,9 +134,11 @@ process_single_file() {
     # Step 3: Segment the brain
     echo -e "${YELLOW}Step 3/4: Running segmentation...${NC}"
     cd "$BUNDLE_ROOT"
+    # Override output_dir in config to use our output_dir so segmentation saves to the right place
     python -m monai.bundle run \
         --config_file configs/inference.json \
         --input_dict "{'image':'$preprocess_tmp'}" \
+        --output_dir "$output_dir" \
         --modality "$MODALITY" || {
         echo -e "${RED}Error: Segmentation failed${NC}" >&2
         [[ "$KEEP_TEMP" == "false" ]] && rm -rf "$temp_dir"
