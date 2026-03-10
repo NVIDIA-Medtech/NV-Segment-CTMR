@@ -8,7 +8,7 @@ Both models follow the MONAI bundle architecture.
 
 | Feature | NV-Segment-CT | NV-Segment-CTMR |
 |---------|---------------|-----------------|
-| **Anatomical Classes** | 132 classes | 345+ classes |
+| **Anatomical Classes** | [132 classes (7 types of tumors)](NV-Segment-CT/configs/label_dict.json) | [345+ classes](NV-Segment-CTMR/configs/label_dict.json) |
 | **Modalities** | CT only | CT + MRI (body & brain) |
 | **Segmentation Type** | Automatic + Interactive (point-click) | Automatic only |
 | **Model Weights**     | [NV-Segment-CT on HuggingFace](https://huggingface.co/nvidia/NV-Segment-CT) | [NV-Segment-CTMR on HuggingFace](https://huggingface.co/nvidia/NV-Segment-CTMR) |
@@ -24,6 +24,8 @@ Both models follow the MONAI bundle architecture.
 
 - out-of-the-box automatic segmentation on 3D CT scans
 - share the same architecture with VISTA3D-CT model but we only trained the automatic segmentation branch with larger CT and MRI datasets.
+
+![CTMR](./NV-Segment-CTMR/docs/ctmr.png) 
 
 ## Performance on held-out test set
 

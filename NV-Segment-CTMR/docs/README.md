@@ -25,7 +25,10 @@ pip install -r requirements.txt
 # Create models directory and download pretrained model
 cd ..
 mkdir -p NV-Segment-CTMR/models
-wget -O NV-Segment-CTMR/models/model.pt https://huggingface.co/nvidia/NV-Segment-CTMR/resolve/main/vista3d_pretrained_model/model.pt
+# Option 1: Download using hf and move to expected location
+hf download nvidia/NV-Segment-CTMR vista3d_pretrained_model/model.pt --local-dir NV-Segment-CTMR/models/ && \
+mv NV-Segment-CTMR/models/vista3d_pretrained_model/model.pt NV-Segment-CTMR/models/model.pt && \
+rmdir NV-Segment-CTMR/models/vista3d_pretrained_model
 ```
 
 ## Automatic Segmentation (support multi-gpu batch processing)

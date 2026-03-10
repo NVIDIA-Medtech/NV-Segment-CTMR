@@ -17,7 +17,9 @@ pip install -r requirements.txt;
 cd ..;
 mkdir NV-Segment-CT/models;
 # download from huggingface link
-wget -O NV-Segment-CT/models/model.pt https://huggingface.co/nvidia/NV-Segment-CT/resolve/main/vista3d_pretrained_model/model.pt
+hf download nvidia/NV-Segment-CT vista3d_pretrained_model/model.pt --local-dir NV-Segment-CT/models/ && \
+mv NV-Segment-CT/models/vista3d_pretrained_model/model.pt NV-Segment-CT/models/model.pt && \
+rmdir NV-Segment-CT/models/vista3d_pretrained_model
 ```
 
 ## 1.1 **VISTA3D-CT** [[Github]](https://github.com/NVIDIA-Medtech/NV-Segment-CTMR/tree/main/NV-Segment-CT) [[Huggingface]](https://huggingface.co/nvidia/NV-Segment-CT)

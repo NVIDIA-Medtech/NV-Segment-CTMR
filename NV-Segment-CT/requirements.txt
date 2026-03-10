@@ -16,3 +16,4 @@ timm
 pytorch-ignite
 tensorboardX
 mlflow
+huggingface_hub
