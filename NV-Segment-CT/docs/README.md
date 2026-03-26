@@ -22,7 +22,7 @@ mv NV-Segment-CT/models/vista3d_pretrained_model/model.pt NV-Segment-CT/models/m
 rmdir NV-Segment-CT/models/vista3d_pretrained_model
 ```
 
-## 1.1 **VISTA3D-CT** [[Github]](https://github.com/NVIDIA-Medtech/NV-Segment-CTMR/tree/main/NV-Segment-CT) [[Huggingface]](https://huggingface.co/nvidia/NV-Segment-CT)
+## 1.1 **NV-Segment-CT** [[Github]](https://github.com/NVIDIA-Medtech/NV-Segment-CTMR/tree/main/NV-Segment-CT) [[Huggingface]](https://huggingface.co/nvidia/NV-Segment-CT)
 
 ### Automatic Segmentation (support multi-gpu batch processing)
 

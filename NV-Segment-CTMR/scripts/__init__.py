@@ -13,3 +13,6 @@
 # from .multi_gpu_supervised_trainer import create_multigpu_supervised_evaluator, create_multigpu_supervised_trainer
 
 from .early_stop_score_function import score_function
+
+# Ensures bundle expressions like ``scripts.batch_inference_utils.build_input_list`` resolve.
+from . import batch_inference_utils  # noqa: F401

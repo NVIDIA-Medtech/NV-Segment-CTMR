@@ -17,7 +17,9 @@
     "initialize": [
         "$import torch.distributed as dist",
         "$dist.is_initialized() or dist.init_process_group(backend='nccl')",
-        "$torch.cuda.set_device(@device)"
+        "$torch.cuda.set_device(@device)",
+        "$monai.utils.set_determinism(seed=123)",
+        "$@checkpointloader(@evaluator)"
     ],
     "run": [
         "$@evaluator.run()"
