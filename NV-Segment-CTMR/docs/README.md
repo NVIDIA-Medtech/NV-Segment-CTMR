@@ -35,12 +35,10 @@ cd NV-Segment-CTMR/NV-Segment-CTMR
 pip install -r requirements.txt
 
 # Create models directory and download pretrained model
-cd ..
-mkdir -p NV-Segment-CTMR/models
+mkdir -p models
 # Option 1: Download using hf and move to expected location
-hf download nvidia/NV-Segment-CTMR vista3d_pretrained_model/model.pt --local-dir NV-Segment-CTMR/models/ && \
-mv NV-Segment-CTMR/models/vista3d_pretrained_model/model.pt NV-Segment-CTMR/models/model.pt && \
-rmdir NV-Segment-CTMR/models/vista3d_pretrained_model
+hf download nvidia/NV-Segment-CTMR --local-dir models/ && \
+mv models/vista3d_pretrained_model/model.pt models/model.pt
 ```
 
 ## Automatic Segmentation (support multi-gpu batch processing)
@@ -121,8 +119,6 @@ Note: if using the finetuned checkpoint and the finetuning label_mapping mapped 
 
 ## Brain MRI segmentation (any MRI sequence)
 
-For brain MRI segmentation, we require preprocessing. The script `brain_t1_preprocess/run_brain_segmentation.sh` runs from the bundle root: it changes into the NV-Segment-CTMR directory next to `brain_t1_preprocess/`, so invoke it from the repo (paths like `example/...` are relative to that root). Activate your Python/conda environment (for example `vista3d-nv`) **before** running the script; the script does not run `conda activate` for you.
-
 ### Using the Brain Segmentation Script
 
 The script automates skull stripping (SynthStrip via `brain_t1_preprocess/synthstrip-docker`), affine alignment to the LUMIR template, MONAI bundle inference, and reverting the mask to the original image space. Temporary files are removed after each case unless you pass `--keep-temp`. It is modified from [MIR tutorials](https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing).
@@ -132,11 +128,13 @@ The script automates skull stripping (SynthStrip via `brain_t1_preprocess/synths
 Output path: `{output_dir}/{basename}_trans.nii.gz` (default `output_dir` is `./eval`).
 
 ```bash
-conda activate vista3d-nv   # or your env with MONAI + deps
+conda activate vista3d-nv 
 
 ./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz
 ./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz --output_dir results/
+# keep temperary files for skull stripping and registration
 ./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz --keep-temp
+# if you cannot perform skull stripping with synthstrip-docker, e.g. on a remote cluster in docker env, you can skull strip the data first then run segmentation with skull strip skipped.
 ./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz --no-skullstrip
 ```
 
@@ -158,6 +156,7 @@ Lines in the list are paths relative to `root_path` (comments and empty lines al
   --file_list file_list.txt --root_path /path/to/root --output_dir /path/to/output
 ./brain_t1_preprocess/run_brain_segmentation.sh \
   --file_list file_list.txt --root_path /path/to/root --output_dir /path/to/output --no-skullstrip
+# split into multiple partitions to submit multiple jobs
 ./brain_t1_preprocess/run_brain_segmentation.sh \
   --file_list file_list.txt --root_path /path/to/root --output_dir /path/to/output \
   --num_partitions 10 --partition 3
@@ -216,17 +215,18 @@ conda activate vista3d-nv
 python -m monai.bundle run --config_file "['configs/inference.json', 'configs/inference_trt.json']"
 ```
 
-For more details, please refer to [this](inference.md).
 
-## Continual learning / Finetuning
-
-See [details](docs/inference.md)
+# Continual learning / Finetuning
+We provide predefined finetuning tutorial in [details](inference.md).
+For complicated finetuning, we suggest users to do vibe coding to generate finetuning pipelines by simply reuse the model and checkpoint
+```python
+from monai.networks.nets.vista3d import vista3d132
+vista3d132.load_state_dict(pretrained_ckpt, strict=True)
+```
 
 
 ## References
-
-- Antonelli, M., Reinke, A., Bakas, S. et al. The Medical Segmentation Decathlon. Nat Commun 13, 4128 (2022). [https://doi.org/10.1038/s41467-022-30695-9](https://doi.org/10.1038/s41467-022-30695-9)
-- VISTA3D: Versatile Imaging SegmenTation and Annotation model for 3D Computed Tomography. arxiv (2024) [https://arxiv.org/abs/2406.05285](https://arxiv.org/abs/2406.05285)
+- He, Yufan, et al. "VISTA3D: A unified segmentation foundation model for 3D medical imaging." Proceedings of the Computer Vision and Pattern Recognition Conference. 2025. <https://openaccess.thecvf.com/content/CVPR2025/html/He_VISTA3D_A_Unified_Segmentation_Foundation_Model_For_3D_Medical_Imaging_CVPR_2025_paper.html>
 
 ## License
 
