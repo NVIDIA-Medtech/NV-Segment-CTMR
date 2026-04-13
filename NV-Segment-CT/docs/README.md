@@ -9,7 +9,7 @@ own datasets. To reproduce the paper results, please refer to [VISTA3D repo](htt
 
 ```bash
 # use the same conda env as this repo
-conda create -y -n vista3d-nv python=3.9
+conda create -y -n vista3d-nv python=3.11
 conda activate vista3d-nv
 git clone https://github.com/NVIDIA-Medtech/NV-Segment-CTMR.git
 cd NV-Segment-CTMR/NV-Segment-CT;

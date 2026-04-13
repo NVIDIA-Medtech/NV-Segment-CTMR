@@ -24,7 +24,7 @@ Note: For Brain MRI segmentation, the model is able to segment 133 classes acros
 
 ```bash
 # Create and activate conda environment
-conda create -y -n vista3d-nv python=3.9
+conda create -y -n vista3d-nv python=3.11
 conda activate vista3d-nv
 
 # Clone repository
