@@ -43,7 +43,7 @@ import intensity_normalization as intnorm
 import numpy as np
 import numpy.typing as npt
 
-ArgType = Union[argparse.Namespace, list[str], None | None]
+ArgType = Union[argparse.Namespace, list[str], None]
 PathLike = Union[str, os.PathLike]
 ShapeLike = Union[SupportsIndex, Sequence[SupportsIndex]]
 
