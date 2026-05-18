@@ -95,10 +95,10 @@ process_single_file() {
     local output_file="$2"
     local failed_log="$3"
     local output_dir=$(dirname "$output_file")
-    
+
     # Ensure output directory exists
     mkdir -p "$output_dir"
-    
+
     # Get absolute paths
     if command -v realpath &> /dev/null; then
         input_file=$(realpath "$input_file" 2>/dev/null || echo "$input_file")
@@ -107,15 +107,15 @@ process_single_file() {
             input_file="$(cd "$(dirname "$input_file")" && pwd)/$(basename "$input_file")"
         fi
     fi
-    
+
     # Extract filename without extension
     local file_basename=$(basename "$input_file" .nii.gz)
     file_basename=$(basename "$file_basename" .nii)
-    
+
     # Create temporary directory in the output directory (use a unique name to avoid conflicts)
     local temp_dir="${output_dir}/${file_basename}_temp_$$"
     mkdir -p "$temp_dir"
-    
+
     # Temporary file paths
     local skull_stripped="${temp_dir}/${file_basename}_skull_stripped.nii.gz"
     local preprocess_tmp="${temp_dir}/${file_basename}_preprocessed.nii.gz"
@@ -124,7 +124,7 @@ process_single_file() {
     # We'll override it to use our output_dir, and it will save as:
     # {output_dir}/{basename}_preprocessed/{basename}_preprocessed_trans.nii.gz
     local preprocess_tmp_seg="${output_dir}/${file_basename}_preprocessed/${file_basename}_preprocessed_trans.nii.gz"
-    
+
     # Cleanup function
     cleanup_on_error() {
         if [[ "$KEEP_TEMP" == "false" ]]; then
@@ -132,10 +132,10 @@ process_single_file() {
         fi
     }
     trap cleanup_on_error ERR
-    
+
     echo -e "${GREEN}Processing: $input_file${NC}" >&2
     echo -e "${GREEN}Output will be saved to: $output_file${NC}" >&2
-    
+
     # Function to log failure and return
     log_failure() {
         local reason="$1"
@@ -146,12 +146,12 @@ process_single_file() {
         cleanup_on_error
         return 1
     }
-    
+
     # Determine which file to use for preprocessing
     local preprocess_input="$input_file"
     local step_num=1
     local total_steps=3
-    
+
     # Step 1: Skull stripping with SynthStrip (if not skipped)
     if [[ "$SKIP_SKULLSTRIP" == "false" ]]; then
         total_steps=4
@@ -170,7 +170,7 @@ process_single_file() {
     else
         echo -e "${YELLOW}Note: Skull stripping step is skipped${NC}" >&2
     fi
-    
+
     # Step 2: Affine align to the LUMIR template
     echo -e "${YELLOW}Step ${step_num}/${total_steps}: Affine alignment to LUMIR template...${NC}" >&2
     cd "$BUNDLE_ROOT"
@@ -182,7 +182,7 @@ process_single_file() {
         log_failure "Error: Preprocessing failed"
         return 1
     }
-    
+
     # Step 3: Segment the brain
     ((step_num++))
     echo -e "${YELLOW}Step ${step_num}/${total_steps}: Running segmentation...${NC}" >&2
@@ -196,7 +196,7 @@ process_single_file() {
         log_failure "Error: Segmentation failed"
         return 1
     }
-    
+
     # Step 4: Revert the segmentation back to original space
     ((step_num++))
     echo -e "${YELLOW}Step ${step_num}/${total_steps}: Reverting to original space...${NC}" >&2
@@ -204,7 +204,7 @@ process_single_file() {
         log_failure "Error: Segmentation output not found"
         return 1
     fi
-    
+
     cd "$BUNDLE_ROOT"
     python brain_t1_preprocess/revert_preprocess.py \
         "$preprocess_tmp" \
@@ -215,7 +215,7 @@ process_single_file() {
         log_failure "Error: Reversion failed"
         return 1
     }
-    
+
     # Clean up temporary files if not keeping them
     if [[ "$KEEP_TEMP" == "false" ]]; then
         echo -e "${YELLOW}Cleaning up temporary files...${NC}" >&2
@@ -228,9 +228,9 @@ process_single_file() {
     else
         echo -e "${GREEN}Temporary files kept in: $temp_dir${NC}" >&2
     fi
-    
+
     trap - ERR
-    
+
     echo -e "${GREEN}✓ Successfully processed: $input_file${NC}" >&2
     echo -e "${GREEN}  Output saved to: $output_file${NC}" >&2
     return 0
@@ -280,7 +280,7 @@ process_folder() {
     for file in "${files[@]}"; do
         echo "" >&2
         echo -e "${GREEN}========================================${NC}" >&2
-        
+
         # Determine output file path
         local file_basename=$(basename "$file" .nii.gz)
         file_basename=$(basename "$file_basename" .nii)
@@ -291,7 +291,7 @@ process_folder() {
             rel_ext=".nii"
         fi
         local output_file="${output_dir}/${file_basename}_trans${rel_ext}"
-        
+
         if process_single_file "$file" "$output_file" ""; then
             ((success_count++))
         else
@@ -314,17 +314,17 @@ process_file_list() {
     local file_list="$1"
     local root_path="$2"
     local output_dir="${OUTPUT_DIR:-./eval}"
-    
+
     if [[ ! -f "$file_list" ]]; then
         echo -e "${RED}Error: File list not found: $file_list${NC}" >&2
         exit 1
     fi
-    
+
     if [[ ! -d "$root_path" ]]; then
         echo -e "${RED}Error: Root path not found: $root_path${NC}" >&2
         exit 1
     fi
-    
+
     # Get absolute paths
     if command -v realpath &> /dev/null; then
         file_list=$(realpath "$file_list" 2>/dev/null || echo "$file_list")
@@ -343,12 +343,12 @@ process_file_list() {
         fi
     fi
     mkdir -p "$output_dir"
-    
+
     # Create log file for failed/timeout files (after directory is created)
     local failed_log="${output_dir}/failed_files_$(date +%Y%m%d_%H%M%S).txt"
     touch "$failed_log"
     echo -e "${YELLOW}Failed/timeout files will be logged to: $failed_log${NC}" >&2
-    
+
     # Read file paths from the list
     local files=()
     local line_num=0
@@ -359,47 +359,47 @@ process_file_list() {
         if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
             continue
         fi
-        
+
         # Remove leading ./ if present
         line="${line#./}"
-        
+
         # Construct full path
         local full_path="${root_path}/${line}"
-        
+
         if [[ ! -f "$full_path" ]]; then
             echo -e "${YELLOW}Warning: File not found (line $line_num): $full_path${NC}" >&2
             continue
         fi
-        
+
         files+=("$full_path")
     done < "$file_list"
-    
+
     if [[ ${#files[@]} -eq 0 ]]; then
         echo -e "${YELLOW}Warning: No valid files found in $file_list${NC}" >&2
         exit 1
     fi
-    
+
     # Sort files deterministically for consistent partitioning
     local sorted_files=()
     while IFS= read -r line; do
         sorted_files+=("$line")
     done < <(printf '%s\n' "${files[@]}" | sort)
     files=("${sorted_files[@]}")
-    
+
     # Apply partitioning if requested
     local total_files=${#files[@]}
     local partition_files=()
-    
+
     if [[ $NUM_PARTITIONS -gt 1 ]]; then
         if [[ $PARTITION_NUM -lt 1 ]] || [[ $PARTITION_NUM -gt $NUM_PARTITIONS ]]; then
             echo -e "${RED}Error: Partition number must be between 1 and $NUM_PARTITIONS${NC}" >&2
             exit 1
         fi
-        
+
         # Calculate partition boundaries (deterministic split)
         local files_per_partition=$((total_files / NUM_PARTITIONS))
         local remainder=$((total_files % NUM_PARTITIONS))
-        
+
         # Calculate start and end indices for this partition (0-indexed)
         local start_idx=0
         for ((i=1; i<PARTITION_NUM; i++)); do
@@ -409,47 +409,47 @@ process_file_list() {
             fi
             ((start_idx += part_size))
         done
-        
+
         local end_idx=$start_idx
         local part_size=$files_per_partition
         if [[ $PARTITION_NUM -le $remainder ]]; then
             ((part_size++))
         fi
         ((end_idx += part_size))
-        
+
         # Extract partition files
         for ((i=start_idx; i<end_idx && i<total_files; i++)); do
             partition_files+=("${files[i]}")
         done
-        
+
         echo -e "${GREEN}Total files in list: $total_files${NC}" >&2
         echo -e "${GREEN}Partition $PARTITION_NUM of $NUM_PARTITIONS: ${#partition_files[@]} file(s)${NC}" >&2
         files=("${partition_files[@]}")
     else
         echo -e "${GREEN}Found ${#files[@]} file(s) to process${NC}" >&2
     fi
-    
+
     echo -e "${BLUE}Root path: $root_path${NC}" >&2
     echo -e "${BLUE}Output directory: $output_dir${NC}" >&2
-    
+
     # Process each file
     local success_count=0
     local fail_count=0
     local skip_count=0
     local total_in_partition=${#files[@]}
     local processed_count=0
-    
+
     for input_file in "${files[@]}"; do
         ((processed_count++))
         local remaining=$((total_in_partition - processed_count))
-        
+
         echo "" >&2
         echo -e "${GREEN}========================================${NC}" >&2
         echo -e "${BLUE}Progress: [$((processed_count-1))/$total_in_partition] completed, $((remaining+1)) remaining${NC}" >&2
-        
+
         # Get relative path from root
         local rel_path="${input_file#$root_path/}"
-        
+
         # Construct output path maintaining directory structure
         # Change filename to add _seg before extension
         local rel_dir=$(dirname "$rel_path")
@@ -462,9 +462,9 @@ process_file_list() {
         elif [[ "$rel_filename" == *.nii ]]; then
             rel_ext=".nii"
         fi
-        
+
         local output_file="${output_dir}/${rel_dir}/${rel_basename}_seg${rel_ext}"
-        
+
         # Check if output already exists (before processing)
         if [[ "$SKIP_EXISTING" == "true" ]] && [[ -f "$output_file" ]]; then
             echo -e "${BLUE}Skipping (output exists): $input_file${NC}" >&2
@@ -472,32 +472,32 @@ process_file_list() {
             ((skip_count++))
             continue
         fi
-        
+
         # Process the file with overall timeout of 5 minutes
         local timeout_seconds=300  # 5 minutes total per scan
         local process_result=0
-        
+
         if command -v timeout &> /dev/null; then
             # Use timeout command to limit total processing time per scan
             # Export necessary variables for the function
             export BUNDLE_ROOT KEEP_TEMP MODALITY SKIP_SKULLSTRIP
-            
+
             # Export the function so it's available in subshell
             # If export -f fails, we'll declare it inline in bash -c
             export -f process_single_file 2>/dev/null
-            
+
             # Run with timeout - use bash -c to ensure function is available
             # Escape file paths safely using printf %q (bash-recommended method)
             printf -v escaped_input_file %q "$input_file"
             printf -v escaped_output_file %q "$output_file"
             printf -v escaped_failed_log %q "$failed_log"
-            
+
             timeout $timeout_seconds bash -c "
                 $(declare -f process_single_file)
                 process_single_file $escaped_input_file $escaped_output_file $escaped_failed_log
             " 2>&1
             local exit_code=$?
-            
+
             if [[ $exit_code -eq 124 ]]; then
                 # Timeout occurred (exit code 124 is timeout)
                 echo -e "${RED}Error: Processing timed out after ${timeout_seconds}s: $input_file${NC}" >&2
@@ -534,7 +534,7 @@ process_file_list() {
             fi
         fi
     done
-    
+
     echo "" >&2
     echo -e "${GREEN}========================================${NC}" >&2
     echo -e "${GREEN}Batch processing complete!${NC}" >&2

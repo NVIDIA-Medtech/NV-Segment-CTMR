@@ -9,6 +9,10 @@
         "$import pathlib"
     ],
     "bundle_root": "./",
+    "huggingface_repo_id": "nvidia/NV-Segment-CTMR",
+    "huggingface_checkpoint_file": "vista3d_pretrained_model/model.pt",
+    "huggingface_download_counter_file": "config.json",
+    "checkpoint_path": "$@bundle_root + '/models/model.pt'",
     "image_key": "image",
     "output_dir": "$@bundle_root + '/eval'",
     "output_ext": ".nii.gz",
@@ -179,7 +183,7 @@
     ],
     "checkpointloader": {
         "_target_": "CheckpointLoader",
-        "load_path": "$@bundle_root + '/models/model.pt'",
+        "load_path": "@checkpoint_path",
         "load_dict": {
             "model": "@network"
         },
@@ -200,6 +204,7 @@
         }
     },
     "initialize": [
+        "$scripts.prepare_huggingface_checkpoint(@huggingface_repo_id, @huggingface_checkpoint_file, @checkpoint_path, @huggingface_download_counter_file)",
         "$monai.utils.set_determinism(seed=123)",
         "$@checkpointloader(@evaluator)"
     ],

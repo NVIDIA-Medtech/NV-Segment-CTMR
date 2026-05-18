@@ -14,12 +14,9 @@ conda activate vista3d-nv
 git clone https://github.com/NVIDIA-Medtech/NV-Segment-CTMR.git
 cd NV-Segment-CTMR/NV-Segment-CT;
 pip install -r requirements.txt;
-
-mkdir -p models
-# Option 1: Download using hf and move to expected location
-hf download nvidia/NV-Segment-CT --local-dir models/ && \
-mv models/vista3d_pretrained_model/model.pt models/model.pt
 ```
+
+Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`; later runs reuse the cached weights while still touching Hugging Face download stats for each inference.
 
 ## 1.1 **NV-Segment-CT** [[Github]](https://github.com/NVIDIA-Medtech/NV-Segment-CTMR/tree/main/NV-Segment-CT) [[Huggingface]](https://huggingface.co/nvidia/NV-Segment-CT)
 
@@ -39,9 +36,9 @@ python -m monai.bundle run --config_file="['configs/inference.json', 'configs/ba
 # Automatic Batch segmentation for the whole folder with multi-gpu support. mgpu_inference.json is below. change nproc_per_node to your GPU number.
 torchrun --nproc_per_node=2 --nnodes=1 -m monai.bundle run --config_file="['configs/inference.json', 'configs/batch_inference.json', 'configs/mgpu_inference.json']" --input_dir="example/" --output_dir="example/"
 ```
-```
+
 Note: For more details about batch processing, please refer to NV-Segment-CTMR readme.md
-```
+
 ### Interactive segmentation
 
 ```bash
@@ -69,12 +66,14 @@ For more details, please refer to [this](inference.md).
 
 We provide predefined finetuning tutorial in [details](inference.md).
 For complicated finetuning, we suggest users to do vibe coding to generate finetuning pipelines by simply reuse the model and checkpoint
+
 ```python
 from monai.networks.nets.vista3d import vista3d132
 vista3d132.load_state_dict(pretrained_ckpt, strict=True)
 ```
 
 ## References
+
 - He, Yufan, et al. "VISTA3D: A unified segmentation foundation model for 3D medical imaging." Proceedings of the Computer Vision and Pattern Recognition Conference. 2025. <https://openaccess.thecvf.com/content/CVPR2025/html/He_VISTA3D_A_Unified_Segmentation_Foundation_Model_For_3D_Medical_Imaging_CVPR_2025_paper.html>
 
 ## License

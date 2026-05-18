@@ -1,14 +1,16 @@
 {
     "input_dir": "@bundle_root",
     "input_suffix": "*.nii.gz",
-    "input_root_abs": "$os.path.abspath(@input_dir)",
+    "input_root_abs": "$os.path.realpath(@input_dir)",
+    "output_dir_abs": "$os.path.realpath(@output_dir)",
     "batch_skip_dir_names": [],
     "batch_skip_dir_prefixes": [],
     "batch_resume_skip_existing": true,
     "batch_use_input_list_cache": true,
     "batch_cache_wait_sec": 120,
-    "input_list": "$scripts.batch_inference_utils.build_input_list(os.path.abspath(@input_dir), os.path.abspath(@output_dir), @output_postfix, @output_ext, @batch_skip_dir_names, @batch_skip_dir_prefixes, @batch_resume_skip_existing, @batch_use_input_list_cache, @batch_cache_wait_sec)",
+    "input_list": "$scripts.batch_inference_utils.build_input_list(@input_root_abs, @output_dir_abs, @output_postfix, @output_ext, @batch_skip_dir_names, @batch_skip_dir_prefixes, @batch_resume_skip_existing, @batch_use_input_list_cache, @batch_cache_wait_sec)",
     "input_dicts": "$[{'image': x, 'label_prompt': @everything_labels} for x in @input_list]",
     "dataset#data": "@input_dicts",
+    "postprocessing#transforms#4#output_dir": "@output_dir_abs",
     "postprocessing#transforms#4#data_root_dir": "@input_root_abs"
 }

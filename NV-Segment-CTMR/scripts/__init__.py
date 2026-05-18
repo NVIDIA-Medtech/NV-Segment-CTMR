@@ -12,7 +12,12 @@
 # from .evaluator import EnsembleEvaluator, Evaluator, SupervisedEvaluator
 # from .multi_gpu_supervised_trainer import create_multigpu_supervised_evaluator, create_multigpu_supervised_trainer
 
-from .early_stop_score_function import score_function
-
 # Ensures bundle expressions like ``scripts.batch_inference_utils.build_input_list`` resolve.
-from . import batch_inference_utils  # noqa: F401
+from . import batch_inference_utils as batch_inference_utils
+from .early_stop_score_function import score_function as score_function
+from .huggingface_download import (
+    prepare_huggingface_checkpoint as prepare_huggingface_checkpoint,
+)
+from .huggingface_download import (
+    touch_huggingface_download_counter as touch_huggingface_download_counter,
+)
