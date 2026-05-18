@@ -78,9 +78,7 @@ def collect_input_paths(
     for p in sorted(input_root.glob(pattern)):
         if not p.is_file():
             continue
-        if should_skip_path_by_parent_rules(
-            p, skip_dir_names=skip_dir_names, skip_dir_prefixes=skip_dir_prefixes
-        ):
+        if should_skip_path_by_parent_rules(p, skip_dir_names=skip_dir_names, skip_dir_prefixes=skip_dir_prefixes):
             continue
         out.append(p)
     return out
@@ -201,9 +199,7 @@ def build_input_list(
         )
         payload = {"paths": paths, "n_discovered": n_discovered}
         if use_cache and local_rank == "0":
-            cache = _cache_path(
-                input_dir, output_dir, output_postfix, output_ext, skip, names, prefixes
-            )
+            cache = _cache_path(input_dir, output_dir, output_postfix, output_ext, skip, names, prefixes)
             cache.parent.mkdir(parents=True, exist_ok=True)
             tmp = cache.with_suffix(".json.tmp")
             tmp.write_text(json.dumps(payload))
@@ -217,9 +213,7 @@ def build_input_list(
                 flush=True,
             )
     else:
-        cache = _cache_path(
-            input_dir, output_dir, output_postfix, output_ext, skip, names, prefixes
-        )
+        cache = _cache_path(input_dir, output_dir, output_postfix, output_ext, skip, names, prefixes)
         deadline = time.time() + wait_sec
         payload = None
         while time.time() < deadline:
@@ -228,9 +222,7 @@ def build_input_list(
                 break
             time.sleep(0.05)
         else:
-            raise RuntimeError(
-                "[nvseg] batch: cache timeout (raise batch_cache_wait_sec or set batch_use_input_list_cache false)"
-            )
+            raise RuntimeError("[nvseg] batch: cache timeout (raise batch_cache_wait_sec or set batch_use_input_list_cache false)")
         paths, n_discovered = _parse_cache_payload(payload)
         # Stale legacy `[]` or missing n_discovered: recompute so workers agree with rank 0.
         if n_discovered < 0:

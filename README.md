@@ -25,7 +25,7 @@ Both models follow the MONAI bundle architecture.
 - out-of-the-box automatic segmentation on 3D CT scans
 - share the same architecture with VISTA3D-CT model but we only trained the automatic segmentation branch with larger CT and MRI datasets.
 
-![CTMR](./NV-Segment-CTMR/docs/ctmr.png) 
+![CTMR](./NV-Segment-CTMR/docs/ctmr.png)
 
 ## Performance on held-out test set
 

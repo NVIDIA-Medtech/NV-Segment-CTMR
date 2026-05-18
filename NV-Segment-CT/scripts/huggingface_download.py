@@ -1,7 +1,6 @@
 import os
 import shutil
 from pathlib import Path
-from typing import Optional
 
 
 def _is_rank_zero() -> bool:
@@ -17,7 +16,7 @@ def touch_huggingface_download_counter(
     filename: str = "config.json",
     revision: str = "main",
     rank_zero_only: bool = True,
-) -> Optional[str]:
+) -> str | None:
     """Force a tiny Hugging Face file request without re-downloading weights."""
 
     if rank_zero_only and not _is_rank_zero():
@@ -67,9 +66,7 @@ def prepare_huggingface_checkpoint(
     try:
         from huggingface_hub import hf_hub_download
     except ImportError as exc:
-        raise RuntimeError(
-            f"{local_path} does not exist and huggingface_hub is not installed; cannot download {repo_id}."
-        ) from exc
+        raise RuntimeError(f"{local_path} does not exist and huggingface_hub is not installed; cannot download {repo_id}.") from exc
 
     checkpoint_path = hf_hub_download(
         repo_id=repo_id,

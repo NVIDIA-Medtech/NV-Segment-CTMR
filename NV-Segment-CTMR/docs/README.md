@@ -2,21 +2,19 @@
 
 NV-Segment-CTMR is a unified CT and MRI segmentation foundation model. It is based on VISTA3D CT model and extended to both CT and MRI. Please refer to [VISTA3D repo](https://github.com/Project-MONAI/VISTA/tree/main/vista3d) for more information.
 
-We defined 345 classes as in [metadata.json](../configs/metadata.json) and their corresponding dataset in [label_dict.json](../configs/label_dict.json). It shows the label organ name, index, training dataset, modality and evaluation dice score. If a class only comes from CT training dataset, it may not perform well on MRI, but the actual performance will vary case by case. We support three types of segment everything: "CT_BODY", "MRI_BODY", and "MRI_BRAIN". "CT_BODY" is the previous VISTA3D bundle supported 132 CT classes. "MRI_BODY" shares the same 50 label classes as TotalsegmentatorMR. "MRI_BRAIN" is trained on skull stripped [LUMIR](https://github.com/JHU-MedImage-Reg/LUMIR_L2R) dataset and will segment brain MRI substructures.
-Preprocessing is needed. Follow [tutorials](https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing). The exact mapping for those three everything labels can be found in [metadata.json](../configs/metadata.json).  
-
+We defined 345 classes as in [metadata.json](../configs/metadata.json) and their corresponding dataset in [label_dict.json](../configs/label_dict.json). It shows the label organ name, index, training dataset, modality and evaluation dice score. If a class only comes from CT training dataset, it may not perform well on MRI, but the actual performance will vary case by case.
+We support three types of segment everything: "CT_BODY", "MRI_BODY", and "MRI_BRAIN". "CT_BODY" is the previous VISTA3D bundle supported 132 CT classes. "MRI_BODY" shares the same 50 label classes as TotalsegmentatorMR. "MRI_BRAIN" is trained on skull stripped [LUMIR](https://github.com/JHU-MedImage-Reg/LUMIR_L2R) dataset and will segment brain MRI substructures.
+Preprocessing is needed. Follow [tutorials](https://github.com/junyuchen245/MIR/tree/main/tutorials/brain_MRI_preprocessing). The exact mapping for those three everything labels can be found in [metadata.json](../configs/metadata.json).
 
 Example segmentations for **CT_BODY** (CT whole-body), **MRI_BRAIN**, and **MRI_BODY** (MRI torso):
 
 ![CT_BODY, MRI_BRAIN, and MRI_BODY segmentation examples](ctmr.png)
-```
+
 Note: The predefined segment everything does not cover all labels, user can select more classes as output. Below is a segmentation using the label list from AutoPetAtals. User can extract the label list from each dataset defined in configs/label_mappings.json
-```
+
 ![CT_BODY, MRI_BRAIN, and MRI_BODY segmentation examples](ctmr2.png)
 
-```
 Note: For Brain MRI segmentation, the model is able to segment 133 classes across diverse MRI sequences including T1, T2, Flair e.t.c.
-```
 
 ## Quick Start
 
@@ -38,9 +36,6 @@ pip install -r requirements.txt
 Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`; later runs reuse the cached weights while still touching Hugging Face download stats for each inference.
 
 ## Automatic Segmentation (support multi-gpu batch processing)
-
-
-
 
 ## Single image inference to segment everything (automatic)
 
@@ -65,8 +60,10 @@ python -m monai.bundle run --config_file configs/inference.json --input_dict "{'
 
 ## Batch inference with multiGPU support (automatic)
 
-The `configs/batch_inference.json` defines the batch inference, you can 
+The `configs/batch_inference.json` defines the batch inference, you can:
+
 1. Segment all NIfTI files within a folder and subfolders
+
     - `configs/batch_inference.json` builds `input_list` with `scripts/batch_inference_utils.build_input_list()`:
     - Recursively discovers `**/*.nii.gz` under `--input_dir`.
     - **Resume (default):** with `batch_resume_skip_existing: true` in `batch_inference.json`, only volumes whose expected output is **missing or empty** under `--output_dir` are queued (same layout as `SaveImaged`). Re-run the **same** command to finish leftovers. Set `batch_resume_skip_existing` to false to segment every discovered file again.
@@ -82,9 +79,11 @@ The `configs/batch_inference.json` defines the batch inference, you can
     - Advanced: edit `should_skip_path_by_parent_rules()` in `scripts/batch_inference_utils.py` for custom path rules.
 
 2. Segment based on a filelist.txt file, you can change the `input_list` in `configs/batch_inference.json`
-```
+
+```json
   "input_list": "$sorted([os.path.abspath(line.strip()) for line in open('/absolute/path/to/filelist.txt') if line.strip() and not line.strip().startswith('#')])",
 ```
+
 ### Single-GPU Batch Inference
 
 ```bash
@@ -96,7 +95,6 @@ python -m monai.bundle run --config_file="['configs/inference.json', 'configs/ba
 ```
 
 ### Multi-GPU batch inference (cohorts, resume, optional folder filters)
-
 
 ```bash
 conda activate vista3d-nv
@@ -124,7 +122,7 @@ The script automates skull stripping (SynthStrip via `brain_t1_preprocess/synths
 Output path: `{output_dir}/{basename}_trans.nii.gz` (default `output_dir` is `./eval`).
 
 ```bash
-conda activate vista3d-nv 
+conda activate vista3d-nv
 
 ./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz
 ./brain_t1_preprocess/run_brain_segmentation.sh --input example/brain_t1.nii.gz --output_dir results/
@@ -211,17 +209,18 @@ conda activate vista3d-nv
 python -m monai.bundle run --config_file "['configs/inference.json', 'configs/inference_trt.json']"
 ```
 
+## Continual learning / Finetuning
 
-# Continual learning / Finetuning
 We provide predefined finetuning tutorial in [details](inference.md).
 For complicated finetuning, we suggest users to do vibe coding to generate finetuning pipelines by simply reuse the model and checkpoint
+
 ```python
 from monai.networks.nets.vista3d import vista3d132
 vista3d132.load_state_dict(pretrained_ckpt, strict=True)
 ```
 
-
 ## References
+
 - He, Yufan, et al. "VISTA3D: A unified segmentation foundation model for 3D medical imaging." Proceedings of the Computer Vision and Pattern Recognition Conference. 2025. <https://openaccess.thecvf.com/content/CVPR2025/html/He_VISTA3D_A_Unified_Segmentation_Foundation_Model_For_3D_Medical_Imaging_CVPR_2025_paper.html>
 
 ## License
@@ -235,6 +234,6 @@ You may obtain a copy of the License at
 
 ### Model Weights License
 
-The model weights included in this project are licensed under the Non-Commercial 
+The model weights included in this project are licensed under the Non-Commercial
 
 [NCLS v1 License](https://developer.download.nvidia.com/licenses/NVIDIA-OneWay-Noncommercial-License-22Mar2022.pdf?t=eyJscyI6InJlZiIsImxzZCI6IlJFRi1naXRodWIuY29tL252aWRpYS1ob2xvc2NhbiJ9)

@@ -3,7 +3,15 @@
 [tool.ruff]
 target-version = "py311"
 line-length = 150
-exclude = [".git", "__pycache__", "data", "figures", "assets", "*.ipynb"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "data",
+    "figures",
+    "assets",
+    "*.ipynb",
+    "NV-Segment-CTMR/brain_t1_preprocess",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]

@@ -1,5 +1,6 @@
 # Finetune configurations
-### Step1: Generate Data json file
+
+## Step1: Generate Data json file
 
 Users need to provide a json data split for continuous learning (`configs/msd_task09_spleen_folds.json` from the [MSD](http://medicaldecathlon.com/) is provided as an example). The data split should meet the following format ('testing' labels are optional):
 
@@ -24,11 +25,11 @@ Example code for 5 fold cross-validation generation can be found [here](data.md)
 Note the data is not the absolute path to the image and label file. The actual image file will be `os.path.join(dataset_dir, data["training"][item]["image"])`, where `dataset_dir` is defined in `configs/train_continual.json`. Also 5-fold cross-validation is not required! `fold=0` is defined in train.json, which means any data item with fold==0 will be used as validation and other fold will be used for training. So if you only have train/val split, you can manually set validation data with "fold": 0 in its datalist and the other to be training by setting "fold" to any number other than 0.
 ```
 
-### Step2: Changing hyperparameters
+## Step2: Changing hyperparameters
 
 For continual learning, user can change `configs/train_continual.json`. More advanced users can change configurations in `configs/train.json`.  Most hyperparameters are straighforward and user can tell based on their names. The users must manually change the following keys in `configs/train_continual.json`.
 
-#### 1. `label_mappings`
+### 1. `label_mappings`
 
 ```json
     "label_mappings": {
@@ -54,11 +55,11 @@ and can speed up the finetuning convergence speed.
 If you cannot find a relevant semantic label for your class, just use any value < `num_classes` defined in train_continue.json.
 For more details about this label_mapping, please read [this](finetune.md).
 
-#### 2.  `data_list_file_path` and `dataset_dir`
+### 2.  `data_list_file_path` and `dataset_dir`
 
 Change `data_list_file_path` to the absolute path of your data json split. Change `dataset_dir` to the root folder that combines with the relative path in the data json split.
 
-#### 3. Optional hyperparameters and details are [here](finetune.md)
+### 3. Optional hyperparameters and details are [here](finetune.md)
 
 Hyperparameter finetuning is important and varies from task to task.
 
@@ -137,7 +138,7 @@ In this bundle, the training is simplified by jointly training with class prompt
 NOTE: If user doesn't use interactive segmentation, set `drop_point_prob=1` and `drop_label_prob=0` in train.json might provide a faster and easier finetuning process.
 ```
 
-### Other explanatory items
+### Training explanatory items
 
 In `train.json`, `validate[evaluator][val_head]` can be `auto` and `point`. If `auto`, the validation results will be automatic segmentation. If `point`,
 the validation results will be sampling one positive point per object per patch. The validation scheme of combining auto and point is deprecated due to
@@ -157,7 +158,6 @@ The default configs for both variables are derived from the `label_mappings` con
 ```
 
 Note: Please ensure the input data header is correct. The output file will use the same header as the input data, but if the input data is missing header information, MONAI will automatically provide some default values for missing values (e.g. `np.eye(4)` will be used if affine information is absent). This may cause a visualization misalignment depending on the visualization tool.
-
 
 ## Evaluation
 
@@ -188,7 +188,7 @@ torchrun --nnodes=1 --nproc_per_node=8 -m monai.bundle run \
     --config_file="['configs/train.json','configs/train_continual.json','configs/evaluate.json','configs/mgpu_evaluate.json']"
 ```
 
-### Other explanatory items
+### Evaluation explanatory items
 
 The `label_mapping` in `evaluation.json` does not include `0` because the postprocessing step performs argmax (`VistaPostTransformd`), and a `0` prediction would negatively impact performance. In continuous learning, however, `0` is included for validation because no argmax is performed, and validation is done channel-wise (include_background=False). Additionally, `Relabeld` in `postprocessing` is required to map `label` and `pred` back to sequential indexes like `0, 1, 2, 3, 4` for dice calculation, as they are not in one-hot format. Evaluation does not support `point`, but finetuning does, as it does not perform argmax.
 
