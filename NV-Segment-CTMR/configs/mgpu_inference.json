@@ -18,6 +18,8 @@
         "$import torch.distributed as dist",
         "$dist.is_initialized() or dist.init_process_group(backend='nccl')",
         "$torch.cuda.set_device(@device)",
+        "$scripts.prepare_huggingface_checkpoint(@huggingface_repo_id, @huggingface_checkpoint_file, @checkpoint_path, @huggingface_download_counter_file)",
+        "$dist.barrier()",
         "$monai.utils.set_determinism(seed=123)",
         "$@checkpointloader(@evaluator)"
     ],

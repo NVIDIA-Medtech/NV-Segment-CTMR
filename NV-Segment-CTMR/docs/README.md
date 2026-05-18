@@ -33,13 +33,9 @@ cd NV-Segment-CTMR/NV-Segment-CTMR
 
 # Install dependencies
 pip install -r requirements.txt
-
-# Create models directory and download pretrained model
-mkdir -p models
-# Option 1: Download using hf and move to expected location
-hf download nvidia/NV-Segment-CTMR --local-dir models/ && \
-mv models/vista3d_pretrained_model/model.pt models/model.pt
 ```
+
+Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`; later runs reuse the cached weights while still touching Hugging Face download stats for each inference.
 
 ## Automatic Segmentation (support multi-gpu batch processing)
 
@@ -82,7 +78,7 @@ The `configs/batch_inference.json` defines the batch inference, you can
     - If **resume** leaves nothing to run (all outputs already present), the run **exits successfully** with `[nvseg] batch: nothing to run (resume); ok` (avoids a zero-length dataloader / `DistributedSampler` failure). If **no** `*.nii.gz` files are discovered under `input_dir`, you get a short `[nvseg] batch: no *.nii.gz…` error.
     - Rank 0 logs: `[nvseg] batch resume (skip existing outputs): N volume(s) (...)`.
     - **Multi-GPU:** `--nproc_per_node` must be ≤ the number of volumes in `input_list` after filtering.
-    - **Outputs:** With `data_root_dir` and `separate_folder: true`, `input_dir/patient1/mri/scan.nii.gz` → `output_dir/patient1/mri/scan/scan_trans.nii.gz`. Ensure `models/model.pt` exists.
+    - **Outputs:** With `data_root_dir` and `separate_folder: true`, `input_dir/patient1/mri/scan.nii.gz` → `output_dir/patient1/mri/scan/scan_trans.nii.gz`. If `models/model.pt` is missing, inference prepares it automatically from Hugging Face.
     - Advanced: edit `should_skip_path_by_parent_rules()` in `scripts/batch_inference_utils.py` for custom path rules.
 
 2. Segment based on a filelist.txt file, you can change the `input_list` in `configs/batch_inference.json`

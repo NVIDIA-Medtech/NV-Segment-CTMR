@@ -14,12 +14,9 @@ conda activate vista3d-nv
 git clone https://github.com/NVIDIA-Medtech/NV-Segment-CTMR.git
 cd NV-Segment-CTMR/NV-Segment-CT;
 pip install -r requirements.txt;
-
-mkdir -p models
-# Option 1: Download using hf and move to expected location
-hf download nvidia/NV-Segment-CT --local-dir models/ && \
-mv models/vista3d_pretrained_model/model.pt models/model.pt
 ```
+
+Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`; later runs reuse the cached weights while still touching Hugging Face download stats for each inference.
 
 ## 1.1 **NV-Segment-CT** [[Github]](https://github.com/NVIDIA-Medtech/NV-Segment-CTMR/tree/main/NV-Segment-CT) [[Huggingface]](https://huggingface.co/nvidia/NV-Segment-CT)
 
