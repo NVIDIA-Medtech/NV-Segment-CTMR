@@ -33,7 +33,7 @@ cd NV-Segment-CTMR/NV-Segment-CTMR
 pip install -r requirements.txt
 ```
 
-Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`; later runs reuse the cached weights while still touching Hugging Face download stats for each inference.
+Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`;
 
 ## Automatic Segmentation (support multi-gpu batch processing)
 
@@ -211,7 +211,7 @@ python -m monai.bundle run --config_file "['configs/inference.json', 'configs/in
 
 ## Continual learning / Finetuning
 
-We provide predefined finetuning tutorial in [details](inference.md).
+We provide predefined finetuning tutorial in [details](finetune.md).
 For complicated finetuning, we suggest users to do vibe coding to generate finetuning pipelines by simply reuse the model and checkpoint
 
 ```python
