@@ -33,7 +33,7 @@ cd NV-Segment-CTMR/NV-Segment-CTMR
 pip install -r requirements.txt
 ```
 
-Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`;
+Model weights are prepared automatically during inference. The first run downloads the checkpoint from Hugging Face into the local Hugging Face cache and links it at `models/model.pt`; later runs reuse the cached weights.
 
 ## Automatic Segmentation (support multi-gpu batch processing)
 
