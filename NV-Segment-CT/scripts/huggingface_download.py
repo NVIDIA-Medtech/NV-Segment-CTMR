@@ -11,39 +11,6 @@ def _is_rank_zero() -> bool:
     return True
 
 
-def touch_huggingface_download_counter(
-    repo_id: str,
-    filename: str = "config.json",
-    revision: str = "main",
-    rank_zero_only: bool = True,
-) -> str | None:
-    """Force a tiny Hugging Face file request without re-downloading weights."""
-
-    if rank_zero_only and not _is_rank_zero():
-        return None
-
-    try:
-        from huggingface_hub import hf_hub_download
-    except ImportError:
-        print("[nvseg] warning: huggingface_hub is not installed; skipping Hugging Face download counter touch.")
-        return None
-
-    try:
-        path = hf_hub_download(
-            repo_id=repo_id,
-            filename=filename,
-            repo_type="model",
-            revision=revision,
-            force_download=True,
-        )
-    except Exception as exc:  # noqa: BLE001
-        print(f"[nvseg] warning: could not touch Hugging Face download counter for {repo_id}/{filename}: {exc}")
-        return None
-
-    print(f"[nvseg] touched Hugging Face download counter for {repo_id}/{filename}")
-    return path
-
-
 def prepare_huggingface_checkpoint(
     repo_id: str,
     checkpoint_filename: str,
@@ -52,21 +19,26 @@ def prepare_huggingface_checkpoint(
     revision: str = "main",
     rank_zero_only: bool = True,
 ) -> str:
-    """Ensure the local MONAI checkpoint path exists and touch HF stats for this inference."""
+    """Ensure the local MONAI checkpoint path exists and count a first-time download."""
 
     local_path = Path(local_checkpoint_path)
 
     if rank_zero_only and not _is_rank_zero():
         return str(local_path)
 
-    touch_huggingface_download_counter(repo_id, counter_filename, revision, rank_zero_only=False)
     if local_path.exists():
         return str(local_path)
 
-    try:
-        from huggingface_hub import hf_hub_download
-    except ImportError as exc:
-        raise RuntimeError(f"{local_path} does not exist and huggingface_hub is not installed; cannot download {repo_id}.") from exc
+    from huggingface_hub import hf_hub_download
+
+    hf_hub_download(
+        repo_id=repo_id,
+        filename=counter_filename,
+        repo_type="model",
+        revision=revision,
+        force_download=True,
+    )
+    print(f"[nvseg] registered Hugging Face download for {repo_id}/{counter_filename}")
 
     checkpoint_path = hf_hub_download(
         repo_id=repo_id,

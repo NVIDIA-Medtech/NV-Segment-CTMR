@@ -18,6 +18,3 @@ from .early_stop_score_function import score_function as score_function
 from .huggingface_download import (
     prepare_huggingface_checkpoint as prepare_huggingface_checkpoint,
 )
-from .huggingface_download import (
-    touch_huggingface_download_counter as touch_huggingface_download_counter,
-)

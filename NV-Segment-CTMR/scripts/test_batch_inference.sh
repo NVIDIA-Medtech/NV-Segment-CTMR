@@ -30,8 +30,7 @@ cd "${BUNDLE_ROOT}"
 EXPECTED_OUTPUT="${OUTPUT_DIR}/s0289/s0289_trans.nii.gz"
 test -s "${EXPECTED_OUTPUT}"
 grep -q "\[nvseg\] batch resume (skip existing outputs): 1 volume" "${WORK_DIR}/batch_inference.log"
-grep -q "\[nvseg\] touched Hugging Face download counter for nvidia/NV-Segment-CTMR/config.json" "${WORK_DIR}/batch_inference.log"
-
+! grep -q "registered Hugging Face download" "${WORK_DIR}/batch_inference.log"
 "${PYTHON_BIN}" -m monai.bundle run \
     --config_file="['configs/inference.json', 'configs/batch_inference.json']" \
     --input_dir="${INPUT_DIR}" \
@@ -40,5 +39,6 @@ grep -q "\[nvseg\] touched Hugging Face download counter for nvidia/NV-Segment-C
     2>&1 | tee "${WORK_DIR}/batch_resume.log"
 
 grep -q "\[nvseg\] batch: nothing to run (resume); ok" "${WORK_DIR}/batch_resume.log"
+! grep -q "registered Hugging Face download" "${WORK_DIR}/batch_resume.log"
 
 echo "[nvseg-test] CTMR batch inference smoke test passed: ${EXPECTED_OUTPUT}"
