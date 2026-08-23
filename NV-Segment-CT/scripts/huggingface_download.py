@@ -31,14 +31,19 @@ def prepare_huggingface_checkpoint(
 
     from huggingface_hub import hf_hub_download
 
-    hf_hub_download(
-        repo_id=repo_id,
-        filename=counter_filename,
-        repo_type="model",
-        revision=revision,
-        force_download=True,
-    )
-    print(f"[nvseg] registered Hugging Face download for {repo_id}/{counter_filename}")
+    # Download tracking is best-effort telemetry and must never block the checkpoint.
+    try:
+        hf_hub_download(
+            repo_id=repo_id,
+            filename=counter_filename,
+            repo_type="model",
+            revision=revision,
+            force_download=True,
+        )
+    except Exception as error:
+        print(f"[nvseg] unable to register Hugging Face download for {repo_id}/{counter_filename}: {error}")
+    else:
+        print(f"[nvseg] registered Hugging Face download for {repo_id}/{counter_filename}")
 
     checkpoint_path = hf_hub_download(
         repo_id=repo_id,
