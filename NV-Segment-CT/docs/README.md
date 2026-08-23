@@ -124,7 +124,10 @@ For more details, please refer to [this](inference.md).
 
 ## Continual learning / Finetuning
 
-We provide predefined finetuning tutorial in [details](finetune.md).
+For conventional fixed-channel training and inference, see
+[Softmax Finetuning](softmax_finetune.md).
+
+We provide the standard VISTA3D finetuning tutorial in [details](finetune.md).
 For complicated finetuning, we suggest users to do vibe coding to generate finetuning pipelines by simply reuse the model and checkpoint
 
 ```python
