@@ -1,0 +1,471 @@
+{
+    "imports": [
+        "$import os",
+        "$import scripts",
+        "$import ignite"
+    ],
+    "bundle_root": ".",
+    "ckpt_dir": "$@bundle_root + '/models'",
+    "output_dir": "$@bundle_root + '/eval'",
+    "data_list_file_path": "$@bundle_root + '/configs/msd_task09_spleen_folds.json'",
+    "dataset_dir": "/data/Task09_Spleen",
+    "image_key": "image",
+    "fold": 0,
+    "device": "$torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')",
+    "amp": true,
+    "use_tensorboard": true,
+    "use_mlflow": true,
+    "mlflow_dir": "$@bundle_root + '/mlruns'",
+    "finetune": true,
+    "finetune_model_path": "$@bundle_root + '/models/model.pt'",
+    "early_stop": false,
+    "epochs": 100,
+    "val_interval": 1,
+    "val_at_start": true,
+    "learning_rate": 0.0001,
+    "sw_overlap": 0.625,
+    "num_patches_per_image": 1,
+    "input_channels": 1,
+    "patch_size": [
+        128,
+        128,
+        128
+    ],
+    "patch_size_valid": "$@patch_size",
+    "resample_to_spacing": [
+        1.5,
+        1.5,
+        1.5
+    ],
+    "n_train_samples": null,
+    "n_val_samples": null,
+    "train_dataset_cache_rate": 1.0,
+    "val_dataset_cache_rate": 1.0,
+    "num_cache_workers": 4,
+    "show_cache_progress": true,
+    "cache_cls_idx": {
+        "activate": true,
+        "indices_key": "$'label_cls_indices' if @cache_cls_idx#activate else None"
+    },
+    "label_mappings": {
+        "default": [
+            [
+                1,
+                3
+            ]
+        ]
+    },
+    "class_ids": "$[mapping[1] for mapping in @label_mappings#default]",
+    "output_classes": "$len(@class_ids) + 1",
+    "train_datalist": "$monai.auto3dseg.utils.datafold_read(datalist=@data_list_file_path, basedir=@dataset_dir, fold=@fold)[0]",
+    "val_datalist": "$monai.auto3dseg.utils.datafold_read(datalist=@data_list_file_path, basedir=@dataset_dir, fold=@fold)[1]",
+    "network_def": {
+        "_target_": "scripts.vista3d_softmax.Vista3dSoftmax",
+        "in_channels": "@input_channels",
+        "class_ids": "@class_ids"
+    },
+    "network": "$@network_def.to(@device)",
+    "loss": {
+        "_target_": "DiceCELoss",
+        "include_background": false,
+        "to_onehot_y": true,
+        "softmax": true,
+        "smooth_dr": 0.01,
+        "smooth_nr": 0.0001
+    },
+    "optimizer": {
+        "_target_": "torch.optim.AdamW",
+        "params": "$@network.parameters()",
+        "lr": "@learning_rate",
+        "weight_decay": 1e-05
+    },
+    "lr_schedule": {
+        "activate": true,
+        "lr_scheduler": {
+            "_target_": "monai.optimizers.WarmupCosineSchedule",
+            "optimizer": "@optimizer",
+            "t_total": "$@epochs",
+            "warmup_steps": 5,
+            "warmup_multiplier": 0.1
+        }
+    },
+    "train": {
+        "deterministic_transforms": [
+            {
+                "_target_": "LoadImaged",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "image_only": true,
+                "ensure_channel_first": true
+            },
+            {
+                "_target_": "CropForegroundd",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "source_key": "image",
+                "margin": 10,
+                "allow_smaller": true,
+                "start_coord_key": null,
+                "end_coord_key": null
+            },
+            {
+                "_target_": "ScaleIntensityRangePercentilesd",
+                "keys": "@image_key",
+                "lower": 1,
+                "upper": 99,
+                "b_min": 0,
+                "b_max": 1,
+                "clip": true
+            },
+            {
+                "_target_": "Orientationd",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "axcodes": "RAS"
+            },
+            {
+                "_target_": "Spacingd",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "pixdim": "$@resample_to_spacing",
+                "mode": [
+                    "bilinear",
+                    "nearest"
+                ]
+            },
+            {
+                "_target_": "CastToTyped",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "dtype": [
+                    "$torch.float32",
+                    "$torch.uint8"
+                ]
+            },
+            {
+                "_target_": "EnsureTyped",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "track_meta": true
+            },
+            {
+                "_target_": "SpatialPadd",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "spatial_size": "@patch_size",
+                "mode": [
+                    "constant",
+                    "constant"
+                ]
+            },
+            {
+                "_target_": "monai.apps.vista3d.transforms.Relabeld",
+                "keys": "label",
+                "label_mappings": "${'default': [[mapping[0], channel + 1] for channel, mapping in enumerate(@label_mappings#default)]}",
+                "dtype": "$torch.uint8"
+            }
+        ],
+        "random_transforms": [
+            {
+                "_target_": "ClassesToIndicesd",
+                "_disabled_": "$not @cache_cls_idx#activate",
+                "keys": "label",
+                "num_classes": "@output_classes",
+                "indices_postfix": "_cls_indices",
+                "max_samples_per_class": "$int(10 * @epochs)"
+            },
+            {
+                "_target_": "RandCropByLabelClassesd",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "label_key": "label",
+                "num_classes": "@output_classes",
+                "spatial_size": "@patch_size",
+                "num_samples": "@num_patches_per_image",
+                "ratios": "$tuple(1 for _ in range(@output_classes))",
+                "indices_key": "$@cache_cls_idx#indices_key",
+                "warn": false
+            },
+            {
+                "_target_": "RandZoomd",
+                "keys": [
+                    "image",
+                    "label"
+                ],
+                "min_zoom": 0.8,
+                "max_zoom": 1.2,
+                "mode": [
+                    "trilinear",
+                    "nearest"
+                ],
+                "prob": 0.2,
+                "allow_missing_keys": true
+            },
+            {
+                "_target_": "RandSimulateLowResolutiond",
+                "keys": [
+                    "image"
+                ],
+                "zoom_range": [
+                    0.3,
+                    1
+                ],
+                "prob": 0.2,
+                "allow_missing_keys": true
+            },
+            {
+                "_target_": "RandGaussianSmoothd",
+                "keys": [
+                    "image"
+                ],
+                "prob": 0.2,
+                "sigma_x": [
+                    0.5,
+                    1.0
+                ],
+                "sigma_y": [
+                    0.5,
+                    1.0
+                ],
+                "sigma_z": [
+                    0.5,
+                    1.0
+                ]
+            },
+            {
+                "_target_": "RandScaleIntensityd",
+                "keys": [
+                    "image"
+                ],
+                "factors": 0.1,
+                "prob": 0.2
+            },
+            {
+                "_target_": "RandShiftIntensityd",
+                "keys": [
+                    "image"
+                ],
+                "offsets": 0.1,
+                "prob": 0.2
+            },
+            {
+                "_target_": "RandGaussianNoised",
+                "keys": [
+                    "image"
+                ],
+                "prob": 0.2,
+                "mean": 0.0,
+                "std": 0.2
+            }
+        ],
+        "inferer": {
+            "_target_": "SimpleInferer"
+        },
+        "preprocessing": {
+            "_target_": "Compose",
+            "transforms": "$@train#deterministic_transforms + @train#random_transforms"
+        },
+        "dataset": {
+            "_target_": "CacheDataset",
+            "data": "$@train_datalist[:@n_train_samples]",
+            "transform": "@train#preprocessing",
+            "cache_rate": "@train_dataset_cache_rate",
+            "hash_as_key": true,
+            "num_workers": "@num_cache_workers",
+            "progress": "@show_cache_progress"
+        },
+        "dataloader": {
+            "_target_": "DataLoader",
+            "dataset": "@train#dataset",
+            "batch_size": 1,
+            "shuffle": true,
+            "num_workers": 4,
+            "pin_memory": true,
+            "persistent_workers": true
+        },
+        "handlers": [
+            {
+                "_target_": "CheckpointLoader",
+                "_disabled_": "$not @finetune",
+                "load_path": "@finetune_model_path",
+                "load_dict": {
+                    "model": "@network"
+                },
+                "strict": false
+            },
+            {
+                "_target_": "LrScheduleHandler",
+                "_disabled_": "$not @lr_schedule#activate",
+                "lr_scheduler": "@lr_schedule#lr_scheduler",
+                "print_lr": true
+            },
+            {
+                "_target_": "ValidationHandler",
+                "validator": "@validate#evaluator",
+                "epoch_level": true,
+                "exec_at_start": "@val_at_start",
+                "interval": "@val_interval"
+            },
+            {
+                "_target_": "TensorBoardStatsHandler",
+                "_disabled_": "$not @use_tensorboard",
+                "log_dir": "@output_dir",
+                "tag_name": "train_loss",
+                "output_transform": "$monai.handlers.from_engine(['loss'], first=True)"
+            },
+            {
+                "_target_": "StatsHandler",
+                "tag_name": "train_loss",
+                "name": "StatsHandler",
+                "output_transform": "$monai.handlers.from_engine(['loss'], first=True)"
+            },
+            {
+                "_target_": "MLFlowHandler",
+                "_disabled_": "$not @use_mlflow",
+                "tracking_uri": "$os.path.abspath(@mlflow_dir)",
+                "output_transform": "$monai.handlers.from_engine(['loss'], first=True)"
+            }
+        ],
+        "trainer": {
+            "_target_": "SupervisedTrainer",
+            "max_epochs": "@epochs",
+            "device": "@device",
+            "train_data_loader": "@train#dataloader",
+            "network": "@network",
+            "loss_function": "@loss",
+            "optimizer": "@optimizer",
+            "inferer": "@train#inferer",
+            "key_train_metric": null,
+            "train_handlers": "@train#handlers",
+            "amp": "@amp"
+        }
+    },
+    "validate": {
+        "preprocessing": {
+            "_target_": "Compose",
+            "transforms": "@train#deterministic_transforms"
+        },
+        "postprocessing": {
+            "_target_": "Compose",
+            "transforms": [
+                {
+                    "_target_": "AsDiscreted",
+                    "keys": "pred",
+                    "argmax": true,
+                    "to_onehot": "@output_classes"
+                },
+                {
+                    "_target_": "AsDiscreted",
+                    "keys": "label",
+                    "to_onehot": "@output_classes"
+                }
+            ]
+        },
+        "dataset": {
+            "_target_": "CacheDataset",
+            "data": "$@val_datalist[:@n_val_samples]",
+            "transform": "@validate#preprocessing",
+            "cache_rate": "@val_dataset_cache_rate",
+            "hash_as_key": true,
+            "num_workers": "@num_cache_workers",
+            "progress": "@show_cache_progress"
+        },
+        "dataloader": {
+            "_target_": "DataLoader",
+            "dataset": "@validate#dataset",
+            "batch_size": 1,
+            "shuffle": false,
+            "num_workers": 4
+        },
+        "inferer": {
+            "_target_": "SlidingWindowInferer",
+            "roi_size": "@patch_size_valid",
+            "sw_batch_size": 1,
+            "overlap": "@sw_overlap",
+            "mode": "gaussian"
+        },
+        "handlers": [
+            {
+                "_target_": "EarlyStopHandler",
+                "_disabled_": "$not @early_stop",
+                "trainer": null,
+                "patience": 2,
+                "score_function": "$scripts.score_function",
+                "min_delta": 0.01
+            },
+            {
+                "_target_": "TensorBoardStatsHandler",
+                "_disabled_": "$not @use_tensorboard",
+                "log_dir": "@output_dir",
+                "iteration_log": false
+            },
+            {
+                "_target_": "StatsHandler",
+                "iteration_log": false,
+                "name": "StatsHandler"
+            },
+            {
+                "_target_": "CheckpointSaver",
+                "save_dir": "@ckpt_dir",
+                "save_dict": {
+                    "model": "@network"
+                },
+                "save_key_metric": true,
+                "key_metric_filename": "model_softmax.pt"
+            },
+            {
+                "_target_": "MLFlowHandler",
+                "_disabled_": "$not @use_mlflow",
+                "iteration_log": false,
+                "tracking_uri": "$os.path.abspath(@mlflow_dir)"
+            }
+        ],
+        "key_metric": {
+            "val_mean_dice": {
+                "_target_": "monai.handlers.IgniteMetricHandler",
+                "metric_fn": {
+                    "_target_": "monai.metrics.DiceMetric",
+                    "include_background": false,
+                    "ignore_empty": false
+                },
+                "output_transform": "$monai.handlers.from_engine(['pred', 'label'])"
+            }
+        },
+        "evaluator": {
+            "_target_": "SupervisedEvaluator",
+            "device": "@device",
+            "val_data_loader": "@validate#dataloader",
+            "network": "@network",
+            "inferer": "@validate#inferer",
+            "postprocessing": "@validate#postprocessing",
+            "key_val_metric": "@validate#key_metric",
+            "additional_metrics": null,
+            "val_handlers": "@validate#handlers",
+            "amp": "@amp"
+        }
+    },
+    "initialize": [
+        "$monai.utils.set_determinism(seed=0)"
+    ],
+    "run": [
+        "$@validate#handlers#0.set_trainer(trainer=@train#trainer) if @early_stop else None",
+        "$@train#trainer.add_event_handler(ignite.engine.Events.ITERATION_COMPLETED, ignite.handlers.TerminateOnNan())",
+        "$@train#trainer.run()"
+    ]
+}

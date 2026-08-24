@@ -35,5 +35,6 @@ Both models follow the MONAI bundle architecture.
 
 - **Quick Deployment**: [NVIDIA NIM for NV-Segment-CT](https://build.nvidia.com/nvidia/vista-3d) - Managed API endpoint
 - **Documentation**: See individual model folders for detailed docs
+- **Softmax Finetuning**: [training and inference guide](NV-Segment-CTMR/docs/softmax_finetune.md)
 - **Research Paper**: [VISTA3D: Versatile Imaging SegmenTation and Annotation](https://arxiv.org/abs/2406.05285)
 - **Built with**: [MONAI](https://monai.io/) - Medical Open Network for AI

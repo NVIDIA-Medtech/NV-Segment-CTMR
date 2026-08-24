@@ -211,8 +211,13 @@ python -m monai.bundle run --config_file "['configs/inference.json', 'configs/in
 
 ## Continual learning / Finetuning
 
-We provide predefined finetuning tutorial in [details](finetune.md).
-For complicated finetuning, we suggest users to do vibe coding to generate finetuning pipelines by simply reuse the model and checkpoint
+See the [finetuning tutorial](finetune.md) for the standard VISTA3D continual-learning workflow.
+
+For the self-contained fixed-channel training and inference workflow, see
+[Softmax Finetuning](softmax_finetune.md).
+
+For complicated finetuning, users can build custom pipelines by reusing the model
+and checkpoint:
 
 ```python
 from monai.networks.nets.vista3d import vista3d132
